@@ -4,7 +4,7 @@ export default EpisodeList = ({ list, poster, isDisplay }) => {
 	return (
 		<View style={{ display: isDisplay ? 'flex' : 'none' }}>
 			<FlatList
-				scrollEnabled={false}
+				// scrollEnabled={false}
 				data={list}
 				inverted
 				renderItem={({ item, index }) => {

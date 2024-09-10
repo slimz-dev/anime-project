@@ -131,7 +131,7 @@ export default MovieInfo = ({ data: item }) => {
 				</View>
 			</View>
 			<View>
-				{!item.isRelease ? (
+				{!item.isRelease && (
 					<Text
 						style={{
 							color: 'white',
@@ -139,8 +139,6 @@ export default MovieInfo = ({ data: item }) => {
 							marginTop: 10,
 						}}
 					>{`Coming ${item.releasedDate.getDate()} ${monthFull[monthReleased]}`}</Text>
-				) : (
-					<></>
 				)}
 				<Text
 					style={{

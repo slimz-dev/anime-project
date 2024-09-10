@@ -31,14 +31,16 @@ export default MovieContainer = ({ data, top = false }) => {
 									{item.releasedDate.getDate()}
 								</Text>
 							</View>
-						) : top ? (
-							<View style={{ marginRight: 14 }}>
-								<Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
-									{index + 1}
-								</Text>
-							</View>
 						) : (
-							<></>
+							top && (
+								<View style={{ marginRight: 14 }}>
+									<Text
+										style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}
+									>
+										{index + 1}
+									</Text>
+								</View>
+							)
 						)}
 						<MovieInfo data={item} />
 					</View>
