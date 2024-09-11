@@ -43,12 +43,6 @@ export default Trending = () => {
 									}}
 									onLayout={(e) => {
 										const layout = e.nativeEvent.layout;
-										console.log(
-											layout.height,
-											layout.width,
-											layout.x,
-											layout.y
-										);
 									}}
 								>
 									<Image
@@ -63,10 +57,8 @@ export default Trending = () => {
 									<Text
 										style={{
 											color: active !== index ? 'white' : 'black',
-											fontSize: 12,
-											fontWeight: 'bold',
 										}}
-										className="text-2xl"
+										className="text-xs font-bold "
 									>
 										{item.name}
 									</Text>
