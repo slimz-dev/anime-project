@@ -34,7 +34,6 @@ export default styles = StyleSheet.create({
 		textTransform: 'uppercase',
 	},
 	loginFacebook: {
-		backgroundColor: 'rgb(0, 100, 255)',
 		width: 300,
 		height: 30,
 		borderRadius: 20,
@@ -45,7 +44,7 @@ export default styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	loginFacebookText: {
-		color: 'white',
+		color: 'black',
 		fontWeight: '600',
 		fontSize: 12,
 		marginRight: 65,

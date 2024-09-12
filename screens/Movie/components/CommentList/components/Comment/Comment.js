@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useState } from 'react';
-import TimeAgo from 'react-native-timeago';
+import TimeAgo from '../../../../../../components/TimeAgo/TimeAgo';
 
 const levelBackground = [
 	{
@@ -106,7 +106,7 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 								style={{ opacity: 0.6 }}
 							/>
 							<Text className="text-xs text-white opacity-60 ml-1">
-								<TimeAgo time="2024-09-10T16:46:44.124Z" />
+								<TimeAgo date="2024-09-9T16:46:44.124Z" />
 							</Text>
 						</View>
 					</View>

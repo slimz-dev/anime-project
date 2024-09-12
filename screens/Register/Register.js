@@ -10,7 +10,7 @@ import {
 	Pressable,
 } from 'react-native';
 import { screenStackName } from '../../config';
-export default Login = () => {
+export default Register = () => {
 	const navigation = useNavigation();
 	return (
 		<View className="bg-black flex-1  relative">
@@ -25,7 +25,9 @@ export default Login = () => {
 					<Text className="text-orange-500 text-center text-3xl capitalize">kmovie</Text>
 				</View>
 				<View className="mb-10">
-					<Text className="text-orange-500 font-bold text-3xl ">Login</Text>
+					<Text className="text-orange-500 font-bold text-3xl capitalize ">
+						create account
+					</Text>
 				</View>
 				<View className="mb-3 ">
 					<Text className="text-white font-bold mb-1 text-xs">Username</Text>
@@ -34,12 +36,9 @@ export default Login = () => {
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
 				</View>
-				<View>
+				<View className="mb-3">
 					<View className="flex-row justify-between">
 						<Text className="text-white font-bold mb-1 text-xs">Password</Text>
-						<Text className="capitalize text-orange-500 font-bold text-xs underline">
-							Forgot?
-						</Text>
 					</View>
 					<TextInput
 						caretHidden
@@ -48,27 +47,29 @@ export default Login = () => {
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
 				</View>
-				<View className="flex-row justify-start w-56 my-1 ">
-					<Text className="text-xs text-black font-bold mr-1">or, Login with</Text>
-					<Pressable
-						className="active:bg-white rounded-full active:opacity-80"
-						onPress={() => navigation.goBack()}
-					>
-						<Text className=" text-xs text-zinc-800 font-bold underline">Google</Text>
-					</Pressable>
+				<View className="mb-4">
+					<View className="flex-row justify-between">
+						<Text className="text-white font-bold mb-1 text-xs">Confirm password</Text>
+					</View>
+					<TextInput
+						caretHidden
+						secureTextEntry
+						blurOnSubmit
+						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
+					/>
 				</View>
 				<TouchableOpacity activeOpacity={0.8}>
 					<View className="w-56  bg-orange-500 rounded-md ">
-						<Text className="text-black font-bold text-center py-2">Log in</Text>
+						<Text className="text-black font-bold text-center py-2">Register</Text>
 					</View>
 				</TouchableOpacity>
 				<View className="flex-row absolute bottom-5">
-					<Text className="text-orange-400 text-xs">Don't have an account?</Text>
+					<Text className="text-orange-500 text-xs">Already have an account?</Text>
 					<Pressable
 						className="active:bg-white rounded-full px-1 active:opacity-80"
-						onPress={() => navigation.navigate(screenStackName.Register)}
+						onPress={() => navigation.goBack()}
 					>
-						<Text className="text-orange-500 text-xs underline font-bold">Sign up</Text>
+						<Text className="text-orange-500 text-xs underline font-bold">Sign in</Text>
 					</Pressable>
 				</View>
 			</ImageBackground>

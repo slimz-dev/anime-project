@@ -11,16 +11,24 @@
 			"resizeMode": "cover"
 		},
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.slimz.kmovie"
 		},
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/logo.png",
 				"backgroundColor": "#ffffff"
-			}
+			},
+			"package": "com.slimz.kmovie"
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
-		}
+		},
+		"extra": {
+			"eas": {
+				"projectId": "804fcb67-3ed7-4c91-87b8-b3debc74b819"
+			}
+		},
+		"scheme": "googleApp"
 	}
 }
