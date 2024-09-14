@@ -3,11 +3,12 @@ import { ImageBackground, Text, View, Image, TouchableOpacity, StatusBar } from 
 import { screenStackName } from '../../config';
 
 import styles from './styles';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 export default StartScreen = () => {
 	const [userInfo, setUserInfo] = useState();
-
+	const { setIsLoggedIn } = useContext(AuthContext);
 	const navigation = useNavigation();
 	const st = styles;
 	return (
@@ -34,7 +35,12 @@ export default StartScreen = () => {
 									source={require('../../assets/google.png')}
 									style={{ width: 25, height: 25 }}
 								/>
-								<Text style={st.loginFacebookText}>Continue with Google</Text>
+								<Text
+									style={st.loginFacebookText}
+									onPress={() => setIsLoggedIn(true)}
+								>
+									Continue with Google
+								</Text>
 							</View>
 						</TouchableOpacity>
 						<View className="my-2">

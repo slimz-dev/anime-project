@@ -98,7 +98,7 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 								style={{ flex: 1, backgroundColor: '#898989' }}
 							/>
 						</MaskedView>
-						<View className="flex-row items-center">
+						<View className="flex-row items-center ">
 							<AntDesign
 								name="clockcircle"
 								size={8}

@@ -6,7 +6,8 @@ import TrendingMovie from './components/TrendingMovie/TrendingMovie';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import ListMovie from './components/ListMovie/ListMovie';
 import data from './mockData';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { movie } from './mockData';
 const types = [
 	{ id: 0, name: 'Huyền huyễn' },
 	{ id: 1, name: 'Xuyên không' },
@@ -17,17 +18,22 @@ const types = [
 ];
 export default Home = () => {
 	const st = styles;
+	const [colors, setColors] = useState(null);
 	const [isShowModal, setIsShowModal] = useState(false);
+
 	const MainContent = useMemo(() => {
 		return (
-			<View style={st.container}>
+			<View style={[st.container]}>
 				<TrendingMovie />
-				<FlatList data={data} renderItem={({ item }) => <ListMovie data={item} />} />
-				<StatusBar />
+				<FlatList
+					data={data}
+					renderItem={({ item }) => (
+						<ListMovie data={item.list} header={item.releaseDay} />
+					)}
+				/>
 			</View>
 		);
 	}, []);
-
 	return (
 		<>
 			<View style={[{ paddingBottom: 10, position: 'fixed', backgroundColor: 'black' }]}>

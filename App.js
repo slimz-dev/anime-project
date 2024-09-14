@@ -3,14 +3,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { authStackNavigator, bottomNavigator } from './navigator/navigator';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { screenBottomNavName, screenStackName } from './config';
 import Login from './screens/Start/Start';
+import AuthProvider from './context/AuthProvider/AuthProvider';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-	const [isLogged, setIsLogged] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const data = { isLoggedIn, setIsLoggedIn };
 	function isStack(route) {
 		const routeName = getFocusedRouteNameFromRoute(route);
 
@@ -30,8 +32,8 @@ export default function App() {
 	}
 
 	return (
-		<>
-			{isLogged ? (
+		<AuthProvider value={data}>
+			{isLoggedIn ? (
 				<NavigationContainer>
 					<Tab.Navigator
 						screenOptions={() => ({
@@ -94,6 +96,6 @@ export default function App() {
 					</Stack.Navigator>
 				</NavigationContainer>
 			)}
-		</>
+		</AuthProvider>
 	);
 }

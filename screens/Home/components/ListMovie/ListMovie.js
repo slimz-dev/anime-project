@@ -3,23 +3,25 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, FlatList, ImageBackground, Pressable } from 'react-native';
 import { screenStackName } from '../../../../config';
 import styles from '../../styles';
-export default ListMovie = ({ data }) => {
+export default ListMovie = ({ data, header }) => {
 	const st = styles;
 	const navigation = useNavigation();
+	const transform = (title) => {
+		return title.charAt(0).toUpperCase() + title.slice(1);
+	};
 	return (
 		<View style={{ marginTop: 20 }}>
 			<Text
 				style={{
 					color: 'orange',
 					fontWeight: 'bold',
-					textTransform: 'capitalize',
 					marginBottom: 5,
 				}}
 			>
-				{data.releaseDay}
+				{transform(header)}
 			</Text>
 			<FlatList
-				data={data.list}
+				data={data}
 				horizontal
 				renderItem={({ item }) => {
 					return (
