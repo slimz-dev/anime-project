@@ -8,7 +8,7 @@ import { view, upcoming, recommend, top } from './mockData';
 const data = [{ data: upcoming }, { data: recommend }, { top: true, data: top }];
 const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export default Trending = () => {
+export default MoviesUpdate = () => {
 	const [active, setActive] = useState(0);
 	const movieRef = useRef();
 
@@ -18,7 +18,14 @@ export default Trending = () => {
 	}
 
 	return (
-		<View style={{ backgroundColor: 'black', flex: 1, paddingHorizontal: 10 }}>
+		<View
+			style={{
+				backgroundColor: 'black',
+				flex: 1,
+				paddingHorizontal: 10,
+				paddingVertical: 10,
+			}}
+		>
 			<View style={{ marginBottom: 10 }}>
 				<FlatList
 					horizontal

@@ -1,7 +1,7 @@
 export const screenStackName = {
 	Home: 'HomeScreen',
 	Movie: 'movie',
-	Trending: 'trending',
+	MoviesUpdate: 'New & Hot',
 	Start: 'start',
 	Login: 'login',
 	Register: 'register',
@@ -10,5 +10,5 @@ export const screenStackName = {
 export const screenBottomNavName = {
 	Home: 'Home',
 	account: 'My Account',
-	Trending: 'New & Hot',
+	MoviesUpdate: 'New & Hot ',
 };

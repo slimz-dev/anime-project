@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Pressable } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 export default RegisterHeader = (data) => {
 	const navigation = useNavigation();
-	console.log(data);
 	return (
 		<View className="flex-1 h-14 bg-black justify-center" style={{ marginLeft: -16 }}>
 			<Pressable

@@ -1,5 +1,14 @@
 // import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, StatusBar, FlatList, Modal, TouchableOpacity } from 'react-native';
+import {
+	Text,
+	View,
+	Image,
+	StatusBar,
+	FlatList,
+	Modal,
+	TouchableOpacity,
+	Pressable,
+} from 'react-native';
 import styles from './styles';
 import Entypo from '@expo/vector-icons/Entypo';
 import TrendingMovie from './components/TrendingMovie/TrendingMovie';
@@ -23,7 +32,7 @@ export default Home = () => {
 
 	const MainContent = useMemo(() => {
 		return (
-			<View style={[st.container]}>
+			<View style={[st.container, { paddingBottom: 40 }]}>
 				<TrendingMovie />
 				<FlatList
 					data={data}
@@ -36,20 +45,33 @@ export default Home = () => {
 	}, []);
 	return (
 		<>
-			<View style={[{ paddingBottom: 10, position: 'fixed', backgroundColor: 'black' }]}>
+			<View
+				style={[
+					{
+						paddingBottom: 10,
+						position: 'fixed',
+						backgroundColor: 'black',
+						paddingHorizontal: 10,
+					},
+				]}
+			>
 				<View
 					style={{
 						flexDirection: 'row',
 						alignItems: 'center',
-						justifyContent: 'space-between',
 						marginBottom: 6,
+						justifyContent: 'between',
 					}}
 				>
-					<Image
-						source={require('../../assets/logo.png')}
-						style={{ width: 40, height: 40 }}
-					/>
-					<Entypo name="magnifying-glass" size={24} color="white" />
+					<View className="flex-row items-center justify-between flex-1">
+						<Image
+							source={require('../../assets/logo.png')}
+							style={{ width: 40, height: 40 }}
+						/>
+						<Pressable className=" active:bg-slate-300 active:opacity-60 rounded-full p-1">
+							<Entypo name="magnifying-glass" size={24} color="white" />
+						</Pressable>
+					</View>
 				</View>
 				<View
 					style={{
@@ -58,7 +80,10 @@ export default Home = () => {
 					}}
 				>
 					<View style={[st.topic, { marginRight: 10 }]}>
-						<Text style={{ fontSize: 12, color: 'white' }}>Đang chiếu</Text>
+						<Text style={{ fontSize: 12, color: 'white' }}>Movie</Text>
+					</View>
+					<View style={[st.topic, { marginRight: 10 }]}>
+						<Text style={{ fontSize: 12, color: 'white' }}>Series</Text>
 					</View>
 					<View style={st.topic}>
 						<Text
