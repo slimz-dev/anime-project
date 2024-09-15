@@ -2,10 +2,11 @@ import MyAccount from '../screens/MyAccount/MyAccount';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { HomeStack, MyAccountStack, TrendingStack } from './stackNavigator';
+import { HomeStack, MyAccountStack, NewsStack } from './stackNavigator';
 import { screenBottomNavName } from '../config';
-
-export const bottomNavigator = [
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator();
+const screenBottomNavigator = [
 	{
 		name: screenBottomNavName.Home,
 		component: HomeStack,
@@ -15,7 +16,7 @@ export const bottomNavigator = [
 	},
 	{
 		name: screenBottomNavName.MoviesUpdate,
-		component: TrendingStack,
+		component: NewsStack,
 		icon: ({ focused }) => (
 			<MaterialIcons
 				name="local-fire-department"
@@ -32,3 +33,36 @@ export const bottomNavigator = [
 		),
 	},
 ];
+
+function bottomNavigator(bottomNavigator) {
+	return (
+		<Tab.Navigator
+			screenOptions={() => ({
+				tabBarStyle: {
+					backgroundColor: 'black',
+				},
+			})}
+		>
+			{bottomNavigator.map((navigator, index) => {
+				const NavigatorIcon = navigator.icon;
+				return (
+					<Tab.Screen
+						key={index}
+						name={navigator.name}
+						component={navigator.component}
+						options={({ route }) => ({
+							tabBarIcon: ({ focused, color, size }) => (
+								<NavigatorIcon focused={focused} />
+							),
+							tabBarActiveTintColor: 'orange',
+							headerShown: false,
+							tabBarInactiveTintColor: 'white',
+						})}
+					/>
+				);
+			})}
+		</Tab.Navigator>
+	);
+}
+
+export const BottomNavigator = () => bottomNavigator(screenBottomNavigator);

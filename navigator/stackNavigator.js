@@ -18,6 +18,7 @@ import Ranking from '../screens/Ranking/Ranking';
 import RankingHeader from '../screens/Ranking/components/CustomHeader/RankingHeader';
 import HelpCenter from '../screens/HelpCenter/HelpCenter';
 import HelpCenterHeader from '../screens/HelpCenter/components/CustomHeader/HelpCenterHeader';
+import AntDesign from '@expo/vector-icons/AntDesign';
 const Stack = createNativeStackNavigator();
 
 const homeStackNavigator = [
@@ -60,6 +61,9 @@ const myAccountStackNavigator = [
 		component: HelpCenter,
 		header: true,
 		customHeader: HelpCenterHeader,
+		icon: ({ size = '24', color = 'black' }) => (
+			<AntDesign name="questioncircleo" size={size} color={color} />
+		),
 	},
 ];
 
@@ -109,5 +113,6 @@ function StackComponent(stackNavigator) {
 }
 
 export const HomeStack = () => StackComponent(homeStackNavigator);
-export const TrendingStack = () => StackComponent(newsStackNavigator);
+export const NewsStack = () => StackComponent(newsStackNavigator);
 export const MyAccountStack = () => StackComponent(myAccountStackNavigator);
+export const AuthStack = () => StackComponent(authStackNavigator);
