@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { authStackNavigator, bottomNavigator } from './navigator/bottomNavigator';
+import { bottomNavigator } from './navigator/bottomNavigator';
+import { authStackNavigator } from './navigator/stackNavigator';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useContext, useRef, useState } from 'react';
 import { screenBottomNavName, screenStackName } from './config';

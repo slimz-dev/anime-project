@@ -5,6 +5,10 @@ export const screenStackName = {
 	Start: 'start',
 	Login: 'login',
 	Register: 'register',
+	MyAccount: 'My account',
+	AccountSetting: 'Account settings',
+	Ranking: 'Top ranking',
+	HelpCenter: 'Help Center',
 };
 
 export const screenBottomNavName = {
