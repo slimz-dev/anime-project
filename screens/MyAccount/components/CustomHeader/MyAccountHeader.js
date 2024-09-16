@@ -11,6 +11,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
 import OutsidePressHandler from 'react-native-outside-press';
 import Modal from 'react-native-modal';
+const pjson = require('../../../../package.json');
 const myAccountStackNavigator = [
 	{
 		name: 'Account',
@@ -68,13 +69,13 @@ export default MyAccountHeader = (data) => {
 				style={{
 					borderTopLeftRadius: 35,
 					borderTopRightRadius: 35,
-					top: '56%',
+					top: '54%',
 				}}
 			>
 				<View
 					style={{
 						flex: 1,
-						backgroundColor: '#333',
+						backgroundColor: '#2a2d2a',
 						paddingTop: 10,
 					}}
 				>
@@ -84,6 +85,20 @@ export default MyAccountHeader = (data) => {
 						}}
 					>
 						<View className="justify-center ">
+							<Pressable
+								style={({ pressed }) => [
+									{
+										backgroundColor: pressed ? '#3a3b3c' : 'transparent',
+									},
+								]}
+							>
+								<View className="flex-row p-3 items-center">
+									<MaterialIcons name="attach-money" size={24} color="white" />
+									<Text className="text-white ml-3 font-bold text-sm">
+										Add Balance
+									</Text>
+								</View>
+							</Pressable>
 							{myAccountStackNavigator.map((navigator, index) => {
 								const Icon = navigator.icon;
 								return (
@@ -96,16 +111,18 @@ export default MyAccountHeader = (data) => {
 													: 'transparent',
 											},
 										]}
+										onPress={() => navigation.navigate(navigator.navigate)}
 									>
-										<View className="flex-row p-4 items-center">
+										<View className="flex-row p-3 items-center">
 											{Icon && <Icon size={24} color="white" />}
-											<Text className="text-white ml-3 font-bold text-sm">
+											<Text className="text-white ml-3 font-bold text-sm capitalize">
 												{navigator.name}
 											</Text>
 										</View>
 									</Pressable>
 								);
 							})}
+
 							<Pressable
 								style={({ pressed }) => [
 									{
@@ -113,13 +130,19 @@ export default MyAccountHeader = (data) => {
 									},
 								]}
 							>
-								<View className="flex-row p-4 items-center">
+								<View className="flex-row p-3 items-center">
 									<MaterialIcons name="logout" size={24} color="white" />
 									<Text className="text-white ml-3 font-bold text-sm">
 										Sign out
 									</Text>
 								</View>
 							</Pressable>
+						</View>
+						<View>
+							<Text
+								className="text-white opacity-60 p-3"
+								style={{ fontSize: 8 }}
+							>{`Version: ${pjson.version} `}</Text>
 						</View>
 					</OutsidePressHandler>
 				</View>

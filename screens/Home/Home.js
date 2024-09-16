@@ -100,9 +100,9 @@ export default Home = () => {
 						/>
 					</View>
 				</View>
+				<StatusBar />
 			</View>
 			<FlatList ListHeaderComponent={MainContent} />
-
 			<Modal visible={isShowModal} animationType="fade" transparent>
 				<View
 					style={{

@@ -59,7 +59,6 @@ export default StartScreen = () => {
 					</View>
 				</View>
 			</ImageBackground>
-			<StatusBar translucent={true} backgroundColor={'transparent'} />
 		</View>
 	);
 };

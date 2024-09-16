@@ -59,7 +59,7 @@ export default MyAccount = () => {
 			<FlatList
 				ListHeaderComponent={
 					<>
-						<View>
+						<View className="relative">
 							<ImageBackground
 								src="https://i.pinimg.com/originals/4e/2a/c0/4e2ac066008948d93d9251cb88830fc3.jpg"
 								resizeMode="cover"
@@ -76,7 +76,7 @@ export default MyAccount = () => {
 										</Text>
 									</View>
 
-									<View className="mt-2">
+									<View className="mt-2 ">
 										<ImageBackground
 											src={findBackground(3)}
 											style={{
@@ -92,6 +92,13 @@ export default MyAccount = () => {
 											</Text>
 										</ImageBackground>
 									</View>
+								</View>
+								<View className="mb-1 flex-row items-center absolute top-1 right-1">
+									<Image
+										source={require('../../assets/crystals.png')}
+										className="w-3 h-3"
+									/>
+									<Text className="text-white font-bold text-xs ml-1">1000</Text>
 								</View>
 							</ImageBackground>
 							<Pressable

@@ -385,7 +385,7 @@ export const top = [
 	{
 		releasedDate: new Date('2024-9-20'),
 		src: 'https://hoathinh3d.run/wp-content/uploads/2022/07/tru-tien-phan-2-2024-300x450.jpg',
-		poster: 'https://scontent.fhan15-1.fna.fbcdn.net/v/t39.30808-6/432778744_995629588825269_6081997374522451720_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=QpIYhIkBitYQ7kNvgEzi8ki&_nc_ht=scontent.fhan15-1.fna&oh=00_AYCu4eIliCTZ4UG0q7-V-_IskoeCytcSQb-wMrN7vnauLw&oe=66DBF066',
+		poster: 'https://homepage.momocdn.net/blogscontents/momo-amazone-s3-api-240816084758-638593948783021419.jpeg',
 		nameImg: require('../../assets/name-img/trutien.png'),
 		name: 'Tru Tiên',
 		engName: 'KaTu',
