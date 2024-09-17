@@ -33,6 +33,15 @@ export default Register = () => {
 					<Text className="text-white font-bold mb-1 text-xs">Username</Text>
 					<TextInput
 						caretHidden
+						maxLength={15}
+						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
+					/>
+				</View>
+				<View className="mb-3 ">
+					<Text className="text-white font-bold mb-1 text-xs">Name</Text>
+					<TextInput
+						caretHidden
+						maxLength={40}
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
 				</View>
@@ -44,6 +53,7 @@ export default Register = () => {
 						caretHidden
 						secureTextEntry
 						blurOnSubmit
+						maxLength={10}
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
 				</View>
@@ -55,6 +65,7 @@ export default Register = () => {
 						caretHidden
 						secureTextEntry
 						blurOnSubmit
+						maxLength={10}
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
 				</View>
