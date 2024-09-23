@@ -1,9 +1,9 @@
-import MyAccount from '../screens/MyAccount/MyAccount';
+import MyAccount from '../../screens/MyAccount/MyAccount';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { HomeStack, MyAccountStack, NewsStack } from './stackNavigator';
-import { screenBottomNavName } from '../config';
+import { HomeStack, MyAccountStack, NewsStack } from '../stackNavigator/stackNavigator';
+import { screenBottomNavName } from '../../config';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 const screenBottomNavigator = [

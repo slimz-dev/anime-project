@@ -7,8 +7,6 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 export default StartScreen = () => {
-	const [userInfo, setUserInfo] = useState();
-	const { setIsLoggedIn } = useContext(AuthContext);
 	const navigation = useNavigation();
 	const st = styles;
 	return (
@@ -37,7 +35,7 @@ export default StartScreen = () => {
 								/>
 								<Text
 									style={st.loginFacebookText}
-									onPress={() => setIsLoggedIn(true)}
+									// onPress={() => setIsLoggedIn(true)}
 								>
 									Continue with Google
 								</Text>

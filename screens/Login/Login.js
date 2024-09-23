@@ -1,4 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
+import * as Device from 'expo-device';
+import * as Crypto from 'expo-crypto';
+import * as SecureStore from 'expo-secure-store';
+import { useContext, useEffect, useState } from 'react';
 import {
 	Text,
 	View,
@@ -9,9 +13,56 @@ import {
 	TouchableOpacity,
 	Pressable,
 } from 'react-native';
+import { loginUser } from '../../services/User/loginUserService';
 import { screenStackName } from '../../config';
+import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 export default Login = () => {
+	const { user, state } = useContext(AuthContext);
 	const navigation = useNavigation();
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [isSubmit, setIsSubmit] = useState(false);
+	const getID = async () => {
+		let deviceID = await SecureStore.getItemAsync('deviceID', { options: true });
+		if (deviceID) {
+			return deviceID;
+		}
+		deviceID = Crypto.randomUUID();
+		await SecureStore.setItemAsync('deviceID', deviceID);
+		return deviceID;
+	};
+	async function fillForm() {
+		const deviceID = await getID();
+		const deviceName = Device.deviceName;
+		const data = {
+			username,
+			password,
+			deviceID,
+			deviceName,
+		};
+		const login = async () => {
+			const result = await loginUser(data);
+
+			if (result.data) {
+				await SecureStore.setItemAsync('access_token', result.accessToken);
+				await SecureStore.setItemAsync('refresh_token', result.refreshToken);
+				await SecureStore.setItemAsync('alreadyLoggedIn', JSON.stringify(true));
+				user.setMyInfo(() => {
+					state.setIsLoggedIn(true);
+					return result.data;
+				});
+			}
+		};
+		if (username && password && deviceID && deviceName) {
+			login();
+		}
+	}
+	useEffect(() => {
+		fillForm();
+	}, [isSubmit]);
+	const handleSubmit = () => {
+		setIsSubmit(!isSubmit);
+	};
 	return (
 		<View className="bg-black flex-1  relative">
 			<ImageBackground
@@ -30,6 +81,8 @@ export default Login = () => {
 				<View className="mb-3 ">
 					<Text className="text-white font-bold mb-1 text-xs">Username</Text>
 					<TextInput
+						value={username}
+						onChangeText={(text) => setUsername(text)}
 						caretHidden
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
@@ -42,6 +95,8 @@ export default Login = () => {
 						</Text>
 					</View>
 					<TextInput
+						value={password}
+						onChangeText={(text) => setPassword(text)}
 						caretHidden
 						secureTextEntry
 						blurOnSubmit
@@ -57,7 +112,7 @@ export default Login = () => {
 						<Text className=" text-xs text-zinc-800 font-bold underline">Google</Text>
 					</Pressable>
 				</View>
-				<TouchableOpacity activeOpacity={0.8}>
+				<TouchableOpacity activeOpacity={0.8} onPress={handleSubmit}>
 					<View className="w-56  bg-orange-500 rounded-md ">
 						<Text className="text-black font-bold text-center py-2">Log in</Text>
 					</View>
