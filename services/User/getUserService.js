@@ -1,23 +1,22 @@
-import myApi from '../instance';
+import request from '../instance';
 import * as SecureStore from 'expo-secure-store';
 export const fetchInfo = async () => {
 	const refreshToken = await SecureStore.getItem('refresh_token', { options: true });
 	try {
-		const result = await myApi.post(`users/my-info`, {
+		const result = await request.post(`users/my-info`, {
 			refreshToken,
 		});
-
+		console.log(result);
 		return {
 			statusCode: result.status,
 			data: result.data.data,
 			accessToken: result.data.meta.accessToken,
 		};
 	} catch (error) {
-		return error.message;
+		return error.response.data;
 	}
 };
-
-myApi.interceptors.request.use(async (req) => {
+request.interceptors.request.use(async (req) => {
 	const accessToken = await SecureStore.getItem('access_token', { options: true });
 	req.headers.Authorization = `Bearer ${accessToken}`;
 

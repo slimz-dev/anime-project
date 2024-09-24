@@ -9,6 +9,7 @@ export default AuthProvider = ({ children }) => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const data = {
 		isLoading,
+		setIsLoading,
 		state: {
 			isLoggedIn,
 			setIsLoggedIn,
@@ -19,10 +20,14 @@ export default AuthProvider = ({ children }) => {
 		},
 	};
 	async function getUserInfo() {
-		const token = await SecureStore.getItemAsync('alreadyLoggedIn', { options: true });
-		if (token) {
+		const alreadyLoggedIn = JSON.parse(
+			await SecureStore.getItemAsync('alreadyLoggedIn', { options: true })
+		);
+		console.log(alreadyLoggedIn);
+		if (alreadyLoggedIn) {
 			async function fetchUser() {
 				const result = await fetchInfo();
+				console.log(JSON.stringify(result, 0, 2));
 				if (result.data && result.accessToken) {
 					await SecureStore.setItemAsync('access_token', result.accessToken);
 					setMyInfo(() => {

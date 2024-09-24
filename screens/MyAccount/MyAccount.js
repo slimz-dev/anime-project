@@ -13,6 +13,8 @@ import MaskedView from '@react-native-masked-view/masked-view';
 import Entypo from '@expo/vector-icons/Entypo';
 import ListMovie from '../Home/components/ListMovie/ListMovie';
 import { data } from './mockData';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 const levelBackground = [
 	{
 		level: 2,
@@ -37,10 +39,27 @@ const levelBackground = [
 	{
 		level: 6,
 		background:
+			'https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/hon_thanh_v2.gif',
+	},
+	{
+		level: 7,
+		background:
+			'https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/dau_thanh_2024.gif',
+	},
+	{
+		level: 8,
+		background:
 			'https://hoathinh3d.run/wp-content/themes/halimmovies-child/assets/image/gif/thanh_te_27.gif',
+	},
+	{
+		level: 9,
+		background:
+			'https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/bat_hu.gif',
 	},
 ];
 export default MyAccount = () => {
+	const { user } = useContext(AuthContext);
+	console.log(JSON.stringify(user.myInfo, 0, 2));
 	const item = {
 		name: 'kim dan',
 		level: {
@@ -66,19 +85,19 @@ export default MyAccount = () => {
 							>
 								<View className="items-center  p-1">
 									<Image
-										src="https://hoathinh3d.in/wp-content/uploads/ultimatemember/30703/profile_photo.jpg?1726331195"
+										src={user.myInfo.avatar}
 										className="w-16 h-16  rounded-full"
 									/>
 
 									<View className="ml-2 mt-2">
 										<Text className="text-white text-xs italic text-center font-bold mr-3 ">
-											Slimz
+											{user.myInfo.name}
 										</Text>
 									</View>
 
 									<View className="mt-2 ">
 										<ImageBackground
-											src={findBackground(3)}
+											src={findBackground(user.myInfo.level.index)}
 											style={{
 												backgroundColor: '#898989',
 											}}
@@ -86,9 +105,9 @@ export default MyAccount = () => {
 											<Text
 												className="text-white capitalize text-center font-black  w-10 rounded-full"
 												numberOfLines={1}
-												style={{ fontSize: 6 }}
+												style={{ fontSize: 8 }}
 											>
-												Kết đan
+												{user.myInfo.level.name}
 											</Text>
 										</ImageBackground>
 									</View>
@@ -98,7 +117,9 @@ export default MyAccount = () => {
 										source={require('../../assets/crystals.png')}
 										className="w-3 h-3"
 									/>
-									<Text className="text-white font-bold text-xs ml-1">1000</Text>
+									<Text className="text-white font-bold text-xs ml-1">
+										{user.myInfo.balance}
+									</Text>
 								</View>
 							</ImageBackground>
 							<Pressable
@@ -125,11 +146,48 @@ export default MyAccount = () => {
 								</View>
 							</Pressable>
 						</View>
-						<ListMovie data={data} header="My list" />
-						<ListMovie data={data} header="Movies you've disliked" />
-						<ListMovie data={data} header="movies that make you feel neutral" />
-						<ListMovie data={data} header="Movies caught your interest" />
-						<ListMovie data={data} header="Movies you've watched" />
+						<View className="mb-4">
+							{user.myInfo.movieFollowed.length !== 0 && (
+								<ListMovie data={user.myInfo.movieFollowed} header="My list" />
+							)}
+
+							{user.myInfo.movieRated.oneStar.length !== 0 && (
+								<ListMovie
+									data={user.myInfo.movieRated.oneStar}
+									header="Movies you strongly disliked"
+								/>
+							)}
+							{user.myInfo.movieRated.twoStars.length !== 0 && (
+								<ListMovie
+									data={user.myInfo.movieRated.twoStars}
+									header="Movies you didn't like much"
+								/>
+							)}
+							{user.myInfo.movieRated.threeStars.length !== 0 && (
+								<ListMovie
+									data={user.myInfo.movieRated.threeStars}
+									header="Movies that were just okay"
+								/>
+							)}
+							{user.myInfo.movieRated.fourStars.length !== 0 && (
+								<ListMovie
+									data={user.myInfo.movieRated.fourStars}
+									header="Movies you really liked"
+								/>
+							)}
+							{user.myInfo.movieRated.fiveStars.length !== 0 && (
+								<ListMovie
+									data={user.myInfo.movieRated.fiveStars}
+									header="Movies you loved"
+								/>
+							)}
+							{user.myInfo.movieWatched.length !== 0 && (
+								<ListMovie
+									data={user.myInfo.movieWatched}
+									header="Movies you've watched"
+								/>
+							)}
+						</View>
 					</>
 				}
 			/>

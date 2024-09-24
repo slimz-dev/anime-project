@@ -16,13 +16,17 @@ import {
 import { loginUser } from '../../services/User/loginUserService';
 import { screenStackName } from '../../config';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import ToastManager, { Toast } from 'toastify-react-native';
 export default Login = () => {
-	const { user, state } = useContext(AuthContext);
+	const { user, state, setIsLoading } = useContext(AuthContext);
 	const navigation = useNavigation();
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [userAccount, setUserAccount] = useState({
+		username: '',
+		password: '',
+	});
 	const [isSubmit, setIsSubmit] = useState(false);
-	const getID = async () => {
+
+	const getDeviceID = async () => {
 		let deviceID = await SecureStore.getItemAsync('deviceID', { options: true });
 		if (deviceID) {
 			return deviceID;
@@ -32,28 +36,30 @@ export default Login = () => {
 		return deviceID;
 	};
 	async function fillForm() {
-		const deviceID = await getID();
+		const deviceID = await getDeviceID();
 		const deviceName = Device.deviceName;
 		const data = {
-			username,
-			password,
+			...userAccount,
 			deviceID,
 			deviceName,
 		};
 		const login = async () => {
 			const result = await loginUser(data);
-
 			if (result.data) {
+				setIsLoading(true);
 				await SecureStore.setItemAsync('access_token', result.accessToken);
 				await SecureStore.setItemAsync('refresh_token', result.refreshToken);
 				await SecureStore.setItemAsync('alreadyLoggedIn', JSON.stringify(true));
 				user.setMyInfo(() => {
+					setIsLoading(false);
 					state.setIsLoggedIn(true);
 					return result.data;
 				});
+			} else {
+				Toast.error(result.message);
 			}
 		};
-		if (username && password && deviceID && deviceName) {
+		if (isSubmit) {
 			login();
 		}
 	}
@@ -61,10 +67,35 @@ export default Login = () => {
 		fillForm();
 	}, [isSubmit]);
 	const handleSubmit = () => {
-		setIsSubmit(!isSubmit);
+		if (userAccount.username && userAccount.password) {
+			setIsSubmit(Math.random());
+		} else {
+			if (!userAccount.username) {
+				Toast.error('You need to type the username first');
+			}
+			if (!userAccount.password) {
+				Toast.error("Password can't empty");
+			}
+		}
 	};
 	return (
 		<View className="bg-black flex-1  relative">
+			<ToastManager
+				animationIn="fadeInDown"
+				animationOut="bounceOutRight"
+				// showProgressBar={false}
+				animationInTiming={300}
+				animationOutTiming={500}
+				duration={2000}
+				showCloseIcon={false}
+				style={{
+					backgroundColor: 'black',
+				}}
+				textStyle={{
+					color: 'orange',
+					fontSize: 10,
+				}}
+			/>
 			<ImageBackground
 				className="flex-1 justify-center items-center"
 				source={require('../../assets/theatre.jpg')}
@@ -81,8 +112,12 @@ export default Login = () => {
 				<View className="mb-3 ">
 					<Text className="text-white font-bold mb-1 text-xs">Username</Text>
 					<TextInput
-						value={username}
-						onChangeText={(text) => setUsername(text)}
+						value={userAccount.username}
+						onChangeText={(text) =>
+							setUserAccount((prev) => {
+								return { ...prev, username: text };
+							})
+						}
 						caretHidden
 						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
 					/>
@@ -95,8 +130,12 @@ export default Login = () => {
 						</Text>
 					</View>
 					<TextInput
-						value={password}
-						onChangeText={(text) => setPassword(text)}
+						value={userAccount.password}
+						onChangeText={(text) =>
+							setUserAccount((prev) => {
+								return { ...prev, password: text };
+							})
+						}
 						caretHidden
 						secureTextEntry
 						blurOnSubmit

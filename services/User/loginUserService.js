@@ -1,7 +1,7 @@
-import myApi from '../instance';
+import request from '../instance';
 export const loginUser = async (user) => {
 	try {
-		const result = await myApi.post(`users/login`, user);
+		const result = await request.post(`users/login`, user);
 		return {
 			statusCode: result.status,
 			data: result.data.data,
@@ -9,6 +9,6 @@ export const loginUser = async (user) => {
 			refreshToken: result.data.meta.refreshToken,
 		};
 	} catch (error) {
-		return error.message;
+		return error.response.data;
 	}
 };
