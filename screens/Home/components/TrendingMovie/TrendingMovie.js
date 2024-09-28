@@ -3,13 +3,24 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Text, View, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { movie } from '../../mockData';
+import { useEffect, useState } from 'react';
+import { getTrendingMovie } from '../../../../services/Movie/getMostTrendingMovie';
+const movie = [];
 export default TrendingMovie = () => {
 	const st = styles;
+	const [movie, setMovie] = useState({});
+	useEffect(() => {
+		const fetchMovie = async () => {
+			const result = await getTrendingMovie();
+			setMovie(result.data);
+		};
+		fetchMovie();
+	}, []);
+	console.log(JSON.stringify(movie, 0, 2));
 	return (
 		<View className="bg-black">
 			<View style={st.imageContainer}>
-				<ImageBackground resizeMode="cover" src={movie.image} style={[st.image]} />
+				<ImageBackground resizeMode="cover" src={movie.picture} style={[st.image]} />
 				<View>
 					<LinearGradient
 						colors={['rgba(0,0,0,0.4)', 'rgba(6,6,6,0.55)', 'rgba(0,0,0,0.4)']}
@@ -20,13 +31,13 @@ export default TrendingMovie = () => {
 					>
 						<View style={{ marginBottom: 10 }}>
 							<Text style={{ color: 'orange', fontWeight: 'bold' }}>
-								{movie.name}
+								{movie.movieName}
 							</Text>
 						</View>
 
 						<View style={st.movieTypes}>
 							<FlatList
-								data={movie.types}
+								data={movie.categories}
 								showsVerticalScrollIndicator={false}
 								showsHorizontalScrollIndicator={false}
 								columnWrapperStyle={{ flexWrap: 'wrap' }}
@@ -42,13 +53,13 @@ export default TrendingMovie = () => {
 										>
 											<Entypo name="dot-single" size={10} color="gray" />
 											<Text style={{ fontSize: 10, color: 'white' }}>
-												{item}
+												{item.categoryName}
 											</Text>
 										</View>
 									) : (
 										<View key={item.key} style={{}}>
 											<Text style={{ fontSize: 10, color: 'white' }}>
-												{item}
+												{item.categoryName}
 											</Text>
 										</View>
 									)

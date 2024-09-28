@@ -6,7 +6,6 @@ export const fetchInfo = async () => {
 		const result = await request.post(`users/my-info`, {
 			refreshToken,
 		});
-		console.log(result);
 		return {
 			statusCode: result.status,
 			data: result.data.data,

@@ -59,7 +59,6 @@ const levelBackground = [
 ];
 export default MyAccount = () => {
 	const { user } = useContext(AuthContext);
-	console.log(JSON.stringify(user.myInfo, 0, 2));
 	const item = {
 		name: 'kim dan',
 		level: {

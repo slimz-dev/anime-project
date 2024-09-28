@@ -43,7 +43,7 @@ export default ListMovie = ({ data, header }) => {
 								onPress={() => navigation.navigate(screenStackName.Movie)}
 							>
 								<ImageBackground
-									src={item.src}
+									src={item.picture}
 									style={{
 										width: 80,
 										height: 100,
@@ -75,7 +75,7 @@ export default ListMovie = ({ data, header }) => {
 													textTransform: 'capitalize',
 												}}
 											>
-												{item.name}
+												{item.movieName}
 											</Text>
 										</View>
 										<View>
@@ -87,7 +87,7 @@ export default ListMovie = ({ data, header }) => {
 													textTransform: 'capitalize',
 												}}
 											>
-												{item.engName}
+												{item.otherName}
 											</Text>
 										</View>
 									</View>
