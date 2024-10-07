@@ -6,43 +6,56 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useState } from 'react';
 import TimeAgo from '../../../../../../components/TimeAgo/TimeAgo';
+import CommentInput from '../CommentInput/CommentInput';
 
 const levelBackground = [
 	{
+		level: 1,
+		background: require('../../../../../../assets/level_1.gif'),
+	},
+	{
 		level: 2,
-		background:
-			'https://hoathinh3d.in/wp-content/themes/halimmovies-child/assets/image/gif/hon_dau_la_052024.gif',
+		background: require('../../../../../../assets/level_2.gif'),
 	},
 	{
 		level: 3,
-		background:
-			'https://hoathinh3d.in/wp-content/themes/halimmovies-child/assets/image/gif/do_kiep_ky_2024.gif',
+		background: require('../../../../../../assets/level_3.gif'),
 	},
 	{
 		level: 4,
-		background:
-			'https://hoathinh3d.run/wp-content/themes/halimmovies-child/assets/image/gif/dau_tong.gif',
+		background: require('../../../../../../assets/level_4.gif'),
 	},
 	{
 		level: 5,
-		background:
-			'https://hoathinh3d.in/wp-content/themes/halimmovies-child/assets/image/gif/vu_tru_ton_gia.gif',
+		background: require('../../../../../../assets/level_5.gif'),
 	},
 	{
 		level: 6,
-		background:
-			'https://hoathinh3d.run/wp-content/themes/halimmovies-child/assets/image/gif/thanh_te_27.gif',
+		background: require('../../../../../../assets/level_6.gif'),
+	},
+	{
+		level: 7,
+		background: require('../../../../../../assets/level_7.gif'),
+	},
+	{
+		level: 8,
+		background: require('../../../../../../assets/level_8.gif'),
+	},
+	{
+		level: 9,
+		background: require('../../../../../../assets/level_9.gif'),
 	},
 ];
 
 export default Comment = ({ data: item, style, nested = 0 }) => {
 	const [showReply, setShowReply] = useState(false);
+	const [isCreateReply, setIsCreateReply] = useState(false);
+
 	function findBackground(level) {
 		const find = levelBackground.find((bg) => bg.level === level);
 		if (find) {
 			return find.background;
 		}
-		return '';
 	}
 
 	function handleToggleReply() {
@@ -63,13 +76,17 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 	const replyTitle = showReply
 		? `Hidden (${checkLength(item.commentsReply, 0)}) replies`
 		: `Show (${checkLength(item.commentsReply, 0)}) replies`;
+
+	const handleReply = () => {
+		setIsCreateReply(!isCreateReply);
+	};
 	return (
 		<>
 			<View className=" mb-2 flex-row " style={{ ...style }}>
 				<View className="mr-2  items-center w-10">
-					<Image src={item.img} className="w-10 h-10 rounded-full mb-1" />
+					<Image src={item.createdBy.avatar} className="w-10 h-10 rounded-full mb-1" />
 					<ImageBackground
-						src={findBackground(item.level.index)}
+						source={findBackground(item.createdBy.level.index)}
 						style={{
 							backgroundColor: '#898989',
 						}}
@@ -79,7 +96,7 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 							style={{ fontSize: 6 }}
 							numberOfLines={1}
 						>
-							{item.level.name}
+							{item.createdBy.level.name}
 						</Text>
 					</ImageBackground>
 				</View>
@@ -89,12 +106,12 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 							style={{ flex: 1 }}
 							maskElement={
 								<Text className="text-white text-xs font-bold mr-3 ">
-									{item.name}
+									{item.createdBy.name}
 								</Text>
 							}
 						>
 							<ImageBackground
-								src={findBackground(item.level.index)}
+								source={findBackground(item.createdBy.level.index)}
 								style={{ flex: 1, backgroundColor: '#898989' }}
 							/>
 						</MaskedView>
@@ -106,7 +123,7 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 								style={{ opacity: 0.6 }}
 							/>
 							<Text className="text-xs text-white opacity-60 ml-1">
-								<TimeAgo date="2024-09-9T16:46:44.124Z" />
+								<TimeAgo date={new Date(item.createdAt)} />
 							</Text>
 						</View>
 					</View>
@@ -120,23 +137,29 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 								className="italic text-slate-400 font-bold underline"
 								style={{ fontSize: 10 }}
 							>
-								{item.replyTo}
+								{item.replyTo.createdBy.name}
 							</Text>
 						</View>
 					)}
 					<Text className="text-white text-xs mt-1">{item.content}</Text>
 					<View className="mt-1 flex-row justify-between">
 						<View className="flex-row">
-							<View className="flex-row items-center mr-2">
-								<AntDesign name="like1" size={12} color="grey" />
+							<View className="flex-row items-center mr-3">
+								<TouchableOpacity activeOpacity={0.2}>
+									<AntDesign name="like1" size={12} color="grey" />
+								</TouchableOpacity>
 								<Text className="text-white opacity-60  text-xs ml-1">
-									{item.likeCount}
+									{item.likeUsers.length}
 								</Text>
 							</View>
-							<View className="flex-row items-center">
-								<Ionicons name="arrow-redo" size={12} color="grey" />
-								<Text className="text-white opacity-60  text-xs ml-1">Reply</Text>
-							</View>
+							<TouchableOpacity activeOpacity={0.6} onPress={handleReply}>
+								<View className="flex-row items-center">
+									<Ionicons name="arrow-redo" size={12} color="grey" />
+									<Text className="text-white opacity-60  text-xs ml-1">
+										Reply
+									</Text>
+								</View>
+							</TouchableOpacity>
 						</View>
 						{item.commentsReply.length !== 0 && (
 							<TouchableOpacity activeOpacity={0.8} onPress={handleToggleReply}>
@@ -164,6 +187,7 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 					</View>
 				</View>
 			</View>
+			{isCreateReply && <CommentInput style={{ ...style }} replyTo={item._id} />}
 			{showReply && (
 				<FlatList
 					data={item.commentsReply}

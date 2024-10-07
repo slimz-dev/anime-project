@@ -40,7 +40,11 @@ export default ListMovie = ({ data, header }) => {
 										opacity: pressed ? 0.85 : 1,
 									},
 								]}
-								onPress={() => navigation.navigate(screenStackName.Movie)}
+								onPress={() =>
+									navigation.navigate(screenStackName.Movie, {
+										movieID: item._id,
+									})
+								}
 							>
 								<ImageBackground
 									src={item.picture}

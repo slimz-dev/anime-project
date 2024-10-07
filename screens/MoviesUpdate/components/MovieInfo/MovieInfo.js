@@ -22,7 +22,7 @@ const monthFull = [
 export default MovieInfo = ({ data: item }) => {
 	const navigation = useNavigation();
 	const movieRef = useRef();
-	const monthReleased = item.releasedDate.getMonth();
+	const monthReleased = new Date(item.releasedDate).getMonth();
 	return (
 		<View style={{ flex: 1 }} ref={movieRef}>
 			<View style={{ borderRadius: 8, overflow: 'hidden', width: '100%' }}>
@@ -45,7 +45,7 @@ export default MovieInfo = ({ data: item }) => {
 				>
 					<Pressable
 						onPress={() => {
-							navigation.navigate(screenStackName.Movie);
+							navigation.navigate(screenStackName.Movie, { movieID: item._id });
 						}}
 						style={({ pressed }) => {
 							return {
@@ -55,7 +55,7 @@ export default MovieInfo = ({ data: item }) => {
 						}}
 					>
 						<ImageBackground
-							source={item.nameImg}
+							src={item.nameImg}
 							style={{ width: '100%', height: 40 }}
 							resizeMode="contain"
 						/>
@@ -77,7 +77,7 @@ export default MovieInfo = ({ data: item }) => {
 								paddingVertical: 8,
 							}}
 						>
-							{!item.isRelease ? (
+							{!item.isReleased ? (
 								<>
 									<Feather name="bell" size={16} color="white" />
 									<Text style={{ color: 'white', opacity: 0.6, fontSize: 8 }}>
@@ -111,7 +111,7 @@ export default MovieInfo = ({ data: item }) => {
 								paddingVertical: 8,
 							}}
 						>
-							{!item.isRelease ? (
+							{!item.isReleased ? (
 								<>
 									<Feather name="info" size={16} color="white" />
 									<Text style={{ color: 'white', opacity: 0.6, fontSize: 8 }}>
@@ -131,14 +131,16 @@ export default MovieInfo = ({ data: item }) => {
 				</View>
 			</View>
 			<View>
-				{!item.isRelease && (
+				{!item.isReleased && (
 					<Text
 						style={{
 							color: 'white',
 							fontWeight: 'bold',
 							marginTop: 10,
 						}}
-					>{`Coming ${item.releasedDate.getDate()} ${monthFull[monthReleased]}`}</Text>
+					>{`Coming ${new Date(item.releasedDate).getDate()} ${
+						monthFull[monthReleased]
+					}`}</Text>
 				)}
 				<Text
 					style={{
@@ -156,7 +158,7 @@ export default MovieInfo = ({ data: item }) => {
 				</Text>
 				<FlatList
 					data={item.types}
-					numColumns={item.types.length}
+					numColumns={item.categories.length}
 					renderItem={({ item, index }) =>
 						index == 0 ? (
 							<Text

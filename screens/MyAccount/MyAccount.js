@@ -93,10 +93,10 @@ export default MyAccount = () => {
 											{user.myInfo.name}
 										</Text>
 									</View>
-
+									{/* findBackground(user.myInfo.level.index) */}
 									<View className="mt-2 ">
 										<ImageBackground
-											src={findBackground(user.myInfo.level.index)}
+											src="https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/bat_hu.gif"
 											style={{
 												backgroundColor: '#898989',
 											}}

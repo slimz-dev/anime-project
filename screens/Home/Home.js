@@ -18,16 +18,11 @@ import ListMovie from './components/ListMovie/ListMovie';
 import { useMemo, useState, useEffect, useContext } from 'react';
 import { queryMovieWithUpdateTime } from '../../services/Movie/getMovieWithUpdateTime';
 import Loading from '../LoadingScreen/Loading';
-const types = [
-	{ id: 0, name: 'Huyền huyễn' },
-	{ id: 1, name: 'Xuyên không' },
-	{ id: 2, name: 'Trùng sinh' },
-	{ id: 3, name: 'Tiên hiệp' },
-	{ id: 4, name: 'Cổ trang' },
-	{ id: 5, name: 'Kiếm hiệp' },
-];
+import { getCategories } from '../../services/Categories/getCategories';
+
 export default Home = () => {
 	const [isLoading, setIsLoading] = useState(true);
+	const [categories, setCategories] = useState([]);
 	const st = styles;
 	const [isShowModal, setIsShowModal] = useState(false);
 	const [data, setData] = useState([]);
@@ -46,6 +41,8 @@ export default Home = () => {
 					});
 				}
 			}
+			const fetchCategories = await getCategories();
+			setCategories(fetchCategories.data);
 			setIsLoading(false);
 		};
 		renderList();
@@ -138,10 +135,10 @@ export default Home = () => {
 								position: 'relative',
 							}}
 						>
-							{types.map((type, index) => {
+							{categories.map((cate, index) => {
 								return (
 									<View key={index} style={{ marginBottom: 20 }}>
-										<Text style={{ color: 'white' }}>{type.name}</Text>
+										<Text style={{ color: 'white' }}>{cate.categoryName}</Text>
 									</View>
 								);
 							})}

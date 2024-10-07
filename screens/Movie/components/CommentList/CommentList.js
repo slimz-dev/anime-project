@@ -9,10 +9,22 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import MaskedView from '@react-native-masked-view/masked-view';
 import Comment from './components/Comment/Comment';
+import CommentInput from './components/CommentInput/CommentInput';
+import { useContext, useEffect, useState } from 'react';
+import { getComments } from '../../../../services/Comment/getComments';
+import { MovieContext } from '../../context/MovieProvider';
 
-export default CommentList = ({ isDisplay, list }) => {
+export default CommentList = ({ isDisplay }) => {
+	const { movieID } = useContext(MovieContext);
+	const [list, setList] = useState([]);
+	useEffect(() => {
+		const fetchComments = async () => {
+			const result = await getComments(movieID);
+			setList(result.data);
+		};
+		fetchComments();
+	}, []);
 	function checkLength(container, length) {
 		if (container.length !== 0) {
 			container.forEach((cmt) => {
@@ -35,36 +47,7 @@ export default CommentList = ({ isDisplay, list }) => {
 						0
 					)} comments`}</Text>
 				</View>
-				<View className="flex-row">
-					<Image
-						src="https://hoathinh3d.in/wp-content/uploads/ultimatemember/30703/profile_photo.jpg?1725919147"
-						className="w-10 h-10 mr-2 rounded-full"
-					/>
-					<TextInput
-						className="text-white border border-white flex-1 rounded-lg "
-						editable
-						multiline
-						textAlignVertical="top"
-						numberOfLines={3}
-						placeholder="Enter your comment..."
-						maxLength={500}
-						style={{ padding: 4 }}
-						placeholderTextColor="grey"
-						keyboardType="default"
-						// onChangeText={(text) => onChangeText(text)}
-						// value={value}
-					/>
-				</View>
-				<View
-					className="rounded-md mt-2 self-end "
-					style={{
-						backgroundColor: '#555',
-					}}
-				>
-					<TouchableOpacity activeOpacity={0.6}>
-						<Text className="text-white font-bold text-xs p-2 capitalize">Send</Text>
-					</TouchableOpacity>
-				</View>
+				<CommentInput />
 			</View>
 			<View className="mt-1">
 				<FlatList

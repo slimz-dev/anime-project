@@ -1,37 +1,35 @@
 {
-  "expo": {
-    "name": "anime_project",
-    "slug": "anime_project",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/logo.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.slimz.kmovie"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.slimz.kmovie"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "804fcb67-3ed7-4c91-87b8-b3debc74b819"
-      }
-    },
-    "scheme": "googleApp",
-    "plugins": [
-      "expo-secure-store"
-    ]
-  }
+	"expo": {
+		"name": "anime_project",
+		"slug": "anime_project",
+		"version": "1.0.0",
+		"orientation": "default",
+		"icon": "./assets/logo.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "cover"
+		},
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.slimz.kmovie"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/logo.png",
+				"backgroundColor": "#000000"
+			},
+			"package": "com.slimz.kmovie"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "804fcb67-3ed7-4c91-87b8-b3debc74b819"
+			}
+		},
+		"scheme": "googleApp",
+		"plugins": ["expo-secure-store", "react-native-video"]
+	}
 }

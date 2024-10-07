@@ -7,7 +7,8 @@ export default MovieContainer = ({ data, top = false }) => {
 			scrollEnabled={false}
 			data={data}
 			renderItem={({ item, index }) => {
-				const monthReleased = item.releasedDate.getMonth();
+				const date = new Date(item.releasedDate);
+				const monthReleased = date.getMonth();
 				return (
 					<View
 						style={{
@@ -15,7 +16,7 @@ export default MovieContainer = ({ data, top = false }) => {
 							marginBottom: 10,
 						}}
 					>
-						{!item.isRelease ? (
+						{!item.isReleased ? (
 							<View style={{ marginRight: 14 }}>
 								<Text
 									style={{
@@ -28,14 +29,19 @@ export default MovieContainer = ({ data, top = false }) => {
 									{month[monthReleased]}
 								</Text>
 								<Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
-									{item.releasedDate.getDate()}
+									{date.getDate()}
 								</Text>
 							</View>
 						) : (
 							top && (
 								<View style={{ marginRight: 14 }}>
 									<Text
-										style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}
+										style={{
+											color: 'white',
+											fontWeight: 'bold',
+											fontSize: 20,
+											width: 25,
+										}}
 									>
 										{index + 1}
 									</Text>

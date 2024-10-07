@@ -1,13 +1,16 @@
 import styles from '../../styles';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, ImageBackground, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useEffect, useState } from 'react';
 import { getTrendingMovie } from '../../../../services/Movie/getMostTrendingMovie';
+import { useNavigation } from '@react-navigation/native';
+import { screenStackName } from '../../../../config';
 const movie = [];
 export default TrendingMovie = () => {
 	const st = styles;
+	const navigation = useNavigation();
 	const [movie, setMovie] = useState({});
 	useEffect(() => {
 		const fetchMovie = async () => {
@@ -16,11 +19,16 @@ export default TrendingMovie = () => {
 		};
 		fetchMovie();
 	}, []);
-	console.log(JSON.stringify(movie, 0, 2));
+
+	const handlePickMovie = () => {
+		navigation.navigate(screenStackName.Movie, { movieID: movie._id });
+	};
 	return (
 		<View className="bg-black">
 			<View style={st.imageContainer}>
-				<ImageBackground resizeMode="cover" src={movie.picture} style={[st.image]} />
+				{movie.picture && (
+					<ImageBackground resizeMode="cover" src={movie.picture} style={[st.image]} />
+				)}
 				<View>
 					<LinearGradient
 						colors={['rgba(0,0,0,0.4)', 'rgba(6,6,6,0.55)', 'rgba(0,0,0,0.4)']}
@@ -68,7 +76,7 @@ export default TrendingMovie = () => {
 						</View>
 
 						<View style={st.buttonContainer}>
-							<TouchableOpacity activeOpacity={0.8}>
+							<TouchableOpacity activeOpacity={0.8} onPress={handlePickMovie}>
 								<View style={[st.imageButton, { backgroundColor: 'black' }]}>
 									<AntDesign name="caretright" size={13} color="orange" />
 									<Text style={{ marginLeft: 6, fontSize: 12, color: 'orange' }}>

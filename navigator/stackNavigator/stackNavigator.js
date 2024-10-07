@@ -19,12 +19,18 @@ import RankingHeader from '../../screens/Ranking/components/CustomHeader/Ranking
 import HelpCenter from '../../screens/HelpCenter/HelpCenter';
 import HelpCenterHeader from '../../screens/HelpCenter/components/CustomHeader/HelpCenterHeader';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import MovieWrapper from '../../screens/Movie/components/MovieWrapper/MovieWrapper';
 const Stack = createNativeStackNavigator();
 
 const homeStackNavigator = [
 	{ name: screenStackName.Home, component: HomeScreen, header: false },
 	{ name: 'Account', component: MyAccount, header: false },
-	{ name: screenStackName.Movie, component: Movie, header: false },
+	{
+		name: screenStackName.Movie,
+		component: MovieWrapper,
+		header: true,
+		customHeader: MovieHeader,
+	},
 ];
 
 const newsStackNavigator = [
@@ -34,7 +40,12 @@ const newsStackNavigator = [
 		header: true,
 		customHeader: MoviesUpdateHeader,
 	},
-	{ name: screenStackName.Movie, component: Movie, header: true, customHeader: MovieHeader },
+	{
+		name: screenStackName.Movie,
+		component: MovieWrapper,
+		header: true,
+		customHeader: MovieHeader,
+	},
 ];
 
 const myAccountStackNavigator = [
