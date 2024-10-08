@@ -10,6 +10,7 @@
 			"image": "./assets/splash.png",
 			"resizeMode": "cover"
 		},
+
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "com.slimz.kmovie"
@@ -19,6 +20,7 @@
 				"foregroundImage": "./assets/logo.png",
 				"backgroundColor": "#000000"
 			},
+			"softwareKeyboardLayoutMode": "pan",
 			"package": "com.slimz.kmovie"
 		},
 		"web": {
@@ -30,6 +32,15 @@
 			}
 		},
 		"scheme": "googleApp",
-		"plugins": ["expo-secure-store", "react-native-video"]
+		"plugins": [
+			"expo-secure-store",
+			"react-native-video",
+			[
+				"expo-image-picker",
+				{
+					"photosPermission": "The app accesses your photos to let you share them with your friends."
+				}
+			]
+		]
 	}
 }

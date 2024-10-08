@@ -15,48 +15,8 @@ import ListMovie from '../Home/components/ListMovie/ListMovie';
 import { data } from './mockData';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
-const levelBackground = [
-	{
-		level: 2,
-		background:
-			'https://hoathinh3d.in/wp-content/themes/halimmovies-child/assets/image/gif/hon_dau_la_052024.gif',
-	},
-	{
-		level: 3,
-		background:
-			'https://hoathinh3d.in/wp-content/themes/halimmovies-child/assets/image/gif/do_kiep_ky_2024.gif',
-	},
-	{
-		level: 4,
-		background:
-			'https://hoathinh3d.run/wp-content/themes/halimmovies-child/assets/image/gif/dau_tong.gif',
-	},
-	{
-		level: 5,
-		background:
-			'https://hoathinh3d.in/wp-content/themes/halimmovies-child/assets/image/gif/vu_tru_ton_gia.gif',
-	},
-	{
-		level: 6,
-		background:
-			'https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/hon_thanh_v2.gif',
-	},
-	{
-		level: 7,
-		background:
-			'https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/dau_thanh_2024.gif',
-	},
-	{
-		level: 8,
-		background:
-			'https://hoathinh3d.run/wp-content/themes/halimmovies-child/assets/image/gif/thanh_te_27.gif',
-	},
-	{
-		level: 9,
-		background:
-			'https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/bat_hu.gif',
-	},
-];
+import { findBackground } from '../../constants/constans';
+
 export default MyAccount = () => {
 	const { user } = useContext(AuthContext);
 	const item = {
@@ -65,13 +25,7 @@ export default MyAccount = () => {
 			index: 3,
 		},
 	};
-	function findBackground(level) {
-		const find = levelBackground.find((bg) => bg.level === level);
-		if (find) {
-			return find.background;
-		}
-		return '';
-	}
+
 	return (
 		<View className="bg-black flex-1">
 			<FlatList
@@ -93,10 +47,9 @@ export default MyAccount = () => {
 											{user.myInfo.name}
 										</Text>
 									</View>
-									{/* findBackground(user.myInfo.level.index) */}
 									<View className="mt-2 ">
 										<ImageBackground
-											src="https://hoathinh3d.vin/wp-content/themes/halimmovies-child/assets/image/gif/bat_hu.gif"
+											source={findBackground(user.myInfo.level.index)}
 											style={{
 												backgroundColor: '#898989',
 											}}
