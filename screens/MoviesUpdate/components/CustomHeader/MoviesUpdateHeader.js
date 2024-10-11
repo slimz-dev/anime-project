@@ -4,6 +4,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { screenStackName } from '../../../../config';
 
 export default MoviesUpdateHeader = (data) => {
+	const navigation = useNavigation();
 	return (
 		<View
 			className="flex-1 h-14 bg-black justify-center"
@@ -13,7 +14,10 @@ export default MoviesUpdateHeader = (data) => {
 				<Text style={{ color: 'orange' }} className=" text-xl ">
 					{screenStackName.MoviesUpdate}
 				</Text>
-				<Pressable className=" active:bg-slate-300 active:opacity-60 rounded-full p-1 justify-center">
+				<Pressable
+					className=" active:bg-slate-300 active:opacity-60 rounded-full p-1 justify-center"
+					onPress={() => navigation.navigate(screenStackName.Search)}
+				>
 					<Entypo name="magnifying-glass" size={20} color="white" />
 				</Pressable>
 			</View>

@@ -89,6 +89,9 @@ export default AccountModal = ({ isShow, setIsShowModal }) => {
 				form.append('phone', data.phone);
 			}
 			result = await changeInfo(user.myInfo._id, form);
+			if (result.statusCode === 200) {
+				Toast.success('Updated successfully');
+			}
 		} else {
 			Toast.warn('You havent changed anything yet');
 		}
@@ -168,7 +171,7 @@ export default AccountModal = ({ isShow, setIsShowModal }) => {
 						<Text className="text-white ml-2 italic mt-2 mb-1">Email</Text>
 						<TextInput
 							className="bg-orange-600 w-full p-2 border rounded-2xl"
-							placeholder={user.myInfo.email ? user.myInfo.email : 'Type your email'}
+							placeholder={user.myInfo.mail ? user.myInfo.mail : 'Type your email'}
 							value={data.mail}
 							onChangeText={(text) => setData((prev) => ({ ...prev, mail: text }))}
 						/>

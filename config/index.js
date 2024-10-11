@@ -9,6 +9,7 @@ export const screenStackName = {
 	AccountSetting: 'Account settings',
 	Ranking: 'Top ranking',
 	HelpCenter: 'Help Center',
+	Search: 'Search',
 };
 
 export const screenBottomNavName = {

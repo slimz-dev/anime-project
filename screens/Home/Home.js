@@ -19,8 +19,11 @@ import { useMemo, useState, useEffect, useContext } from 'react';
 import { queryMovieWithUpdateTime } from '../../services/Movie/getMovieWithUpdateTime';
 import Loading from '../LoadingScreen/Loading';
 import { getCategories } from '../../services/Categories/getCategories';
+import { useNavigation } from '@react-navigation/native';
+import { screenStackName } from '../../config';
 
 export default Home = () => {
+	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(true);
 	const [categories, setCategories] = useState([]);
 	const st = styles;
@@ -89,7 +92,10 @@ export default Home = () => {
 									source={require('../../assets/img/logo.png')}
 									style={{ width: 40, height: 40 }}
 								/>
-								<Pressable className=" active:bg-slate-300 active:opacity-60 rounded-full p-1">
+								<Pressable
+									className=" active:bg-slate-300 active:opacity-60 rounded-full p-1"
+									onPress={() => navigation.navigate(screenStackName.Search)}
+								>
 									<Entypo name="magnifying-glass" size={24} color="white" />
 								</Pressable>
 							</View>

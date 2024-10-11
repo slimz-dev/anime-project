@@ -20,6 +20,7 @@ import HelpCenter from '../../screens/HelpCenter/HelpCenter';
 import HelpCenterHeader from '../../screens/HelpCenter/components/CustomHeader/HelpCenterHeader';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MovieWrapper from '../../screens/Movie/components/MovieWrapper/MovieWrapper';
+import { Search } from '../../screens/Search/Search';
 const Stack = createNativeStackNavigator();
 
 const homeStackNavigator = [
@@ -31,6 +32,7 @@ const homeStackNavigator = [
 		header: true,
 		customHeader: MovieHeader,
 	},
+	{ name: screenStackName.Search, component: Search, header: false },
 ];
 
 const newsStackNavigator = [
@@ -46,6 +48,7 @@ const newsStackNavigator = [
 		header: true,
 		customHeader: MovieHeader,
 	},
+	{ name: screenStackName.Search, component: Search, header: false },
 ];
 
 const myAccountStackNavigator = [
@@ -75,6 +78,13 @@ const myAccountStackNavigator = [
 		icon: ({ size = '24', color = 'black' }) => (
 			<AntDesign name="questioncircleo" size={size} color={color} />
 		),
+	},
+	{ name: screenStackName.Search, component: Search, header: false },
+	{
+		name: screenStackName.Movie,
+		component: MovieWrapper,
+		header: true,
+		customHeader: MovieHeader,
 	},
 ];
 
