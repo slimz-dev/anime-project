@@ -12,7 +12,7 @@ export default StartScreen = () => {
 	return (
 		<View style={st.container}>
 			<ImageBackground
-				source={require('../../assets/login.jpg')}
+				source={require('../../assets/img/login.jpg')}
 				resizeMode="cover"
 				style={st.image}
 				imageStyle={{ opacity: 0.6 }}
@@ -30,7 +30,7 @@ export default StartScreen = () => {
 						<TouchableOpacity activeOpacity={0.8}>
 							<View style={st.loginFacebook} className="bg-white">
 								<Image
-									source={require('../../assets/google.png')}
+									source={require('../../assets/img/google.png')}
 									style={{ width: 25, height: 25 }}
 								/>
 								<Text

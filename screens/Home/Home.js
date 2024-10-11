@@ -86,7 +86,7 @@ export default Home = () => {
 						>
 							<View className="flex-row items-center justify-between flex-1">
 								<Image
-									source={require('../../assets/logo.png')}
+									source={require('../../assets/img/logo.png')}
 									style={{ width: 40, height: 40 }}
 								/>
 								<Pressable className=" active:bg-slate-300 active:opacity-60 rounded-full p-1">

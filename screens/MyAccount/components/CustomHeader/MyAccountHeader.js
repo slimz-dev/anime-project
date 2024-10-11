@@ -8,9 +8,11 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { screenStackName } from '../../../../config';
 import { AntDesign } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import OutsidePressHandler from 'react-native-outside-press';
 import Modal from 'react-native-modal';
+import { AuthContext } from '../../../../context/AuthProvider/AuthProvider';
+import { removeDevice } from '../../../../services/User/removeDevice';
 const pjson = require('../../../../package.json');
 const myAccountStackNavigator = [
 	{
@@ -38,6 +40,13 @@ const myAccountStackNavigator = [
 export default MyAccountHeader = (data) => {
 	const [isShowModal, setIsShowModal] = useState(false);
 	const navigation = useNavigation();
+	const { logout, user } = useContext(AuthContext);
+	const handleSignOut = async () => {
+		const result = await removeDevice(user.myInfo._id);
+		if (result) {
+			logout();
+		}
+	};
 	return (
 		<>
 			<View
@@ -129,6 +138,7 @@ export default MyAccountHeader = (data) => {
 										backgroundColor: pressed ? '#3a3b3c' : 'transparent',
 									},
 								]}
+								onPress={handleSignOut}
 							>
 								<View className="flex-row p-3 items-center">
 									<MaterialIcons name="logout" size={24} color="white" />

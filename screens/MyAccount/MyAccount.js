@@ -66,7 +66,7 @@ export default MyAccount = () => {
 								</View>
 								<View className="mb-1 flex-row items-center absolute top-1 right-1">
 									<Image
-										source={require('../../assets/crystals.png')}
+										source={require('../../assets/img/crystals.png')}
 										className="w-3 h-3"
 									/>
 									<Text className="text-white font-bold text-xs ml-1">

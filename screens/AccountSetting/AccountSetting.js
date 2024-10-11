@@ -1,37 +1,43 @@
-import { useContext, useState } from 'react';
-import {
-	Image,
-	ImageBackground,
-	Text,
-	View,
-	TouchableOpacity,
-	Pressable,
-	Button,
-	TextInput,
-} from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { Image, ImageBackground, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { findBackground } from '../../constants/constans';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import Modal from 'react-native-modal';
-import * as ImagePicker from 'expo-image-picker';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import AccountModal from './components/Modal/AccountModal';
+import Feather from '@expo/vector-icons/Feather';
+import Entypo from '@expo/vector-icons/Entypo';
+import Fontisto from '@expo/vector-icons/Fontisto';
+import { useFonts } from 'expo-font';
+import ToastManager from 'toastify-react-native';
 
 export default AccountSetting = () => {
 	const { user } = useContext(AuthContext);
 	const [isShowModal, setIsShowModal] = useState(false);
+	const [fontsLoaded, fontError] = useFonts({
+		'Thu-Phap': require('../../assets/font/VNI-HLTHUPHAP.ttf'),
+	});
 
+	if (!fontsLoaded && !fontError) {
+		return null;
+	}
+	const showDate = (date) => {
+		if (typeof date !== 'Date') {
+			date = new Date(date);
+		}
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		return `${day}-${month}-${year}`;
+	};
 	return (
 		<>
 			<View className="flex-1 bg-black ">
 				<View className="border-b-neutral-700 pb-3  border-b">
 					<View className="flex-row  px-3">
 						<View className="relative w-28 h-28 rounded-full overflow-hidden ">
-							<ImageBackground
-								src="https://scontent.fhan5-8.fna.fbcdn.net/v/t39.30808-6/204639657_2944272719180797_5964371789766513767_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGCqxhWwx-wKsDafAvBEUBM6ExOhdXN5xjoTE6F1c3nGO50cP1a4YFM78U-MM-othgx_GXy4AUArYwOr99R5noa&_nc_ohc=sjSfKtYpbM0Q7kNvgGCm0YU&_nc_ht=scontent.fhan5-8.fna&_nc_gid=AUQ8EQra9oWzy6BF-wvoVJT&oh=00_AYCel6QNsfxWrfiGDn0TqMGa8SJDzqKYPbG936QSm1NzsQ&oe=670A1D4F"
-								className="w-28 h-28"
-							/>
+							<ImageBackground src={user.myInfo.avatar} className="w-28 h-28" />
 						</View>
 						<View className=" flex-1 justify-center ml-3 mt-10">
 							<Text className="text-orange-500 mb-1 text-base">
@@ -74,22 +80,59 @@ export default AccountSetting = () => {
 							<Text className="text-white">You have reached maximum level</Text>
 						</View>
 					</View>
-					<View className="flex-row py-2">
-						<Text className="text-white text-xl">Phone number: </Text>
-						<Text className="text-white text-xl">01249129414</Text>
+					<View className="flex-row my-3 justify-center items-center">
+						<View className="mb-6">
+							<Fontisto name="quote-a-right" size={12} color="white" />
+						</View>
+						<View className=" mx-2 ">
+							<Text
+								className="text-lg"
+								style={{ color: 'red', fontFamily: 'Thu-Phap' }}
+							>
+								{user.myInfo.quote}
+							</Text>
+						</View>
+						<View className="mt-6">
+							<Fontisto name="quote-a-left" size={12} color="white" />
+						</View>
 					</View>
-					<View className="flex-row py-2">
-						<Text className="text-white text-xl">Date of birth: </Text>
-						<Text className="text-white text-xl">12/01/2002</Text>
-					</View>
-					<View className="flex-row py-2">
-						<Text className="text-white text-xl">Username: </Text>
-						<Text className="text-white text-xl">slimz</Text>
-					</View>
-					<View className="flex-row py-2">
-						<Text className="text-white text-xl">Email: </Text>
-						<Text className="text-white text-xl">hungpj11o2@gmail.com</Text>
-					</View>
+					{[
+						{
+							title: 'Phone number',
+							value: user.myInfo.phone,
+							icon: <Entypo name="old-phone" size={14} color="orange" />,
+						},
+						{
+							title: 'Date of birth',
+							value: showDate(user.myInfo.dob),
+							icon: <FontAwesome name="birthday-cake" size={14} color="orange" />,
+						},
+						{
+							title: 'Username',
+							value: user.myInfo.username,
+							icon: <Entypo name="user" size={14} color="orange" />,
+						},
+						{
+							title: 'Email',
+							value: user.myInfo.mail,
+							icon: <AntDesign name="mail" size={14} color="orange" />,
+						},
+					].map(({ title, value, icon }) => {
+						return (
+							<View
+								key={title}
+								className="flex-row py-5 items-center border-b border-b-zinc-700"
+							>
+								{icon}
+								<Text className=" text-sm ml-2 italic font-bold text-orange-400 mr-1">
+									{`${title}:`}
+								</Text>
+								<Text className=" text-xs italic font-bold text-green-300">
+									{value}
+								</Text>
+							</View>
+						);
+					})}
 				</View>
 			</View>
 			<AccountModal isShow={isShowModal} setIsShowModal={setIsShowModal} />

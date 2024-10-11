@@ -14,8 +14,8 @@ import { Toast } from 'toastify-react-native';
 export default Movie = () => {
 	const { movieSrc, isPlayed, movie, episodes, setSrc, setIsPlayed, movieID } =
 		useContext(MovieContext);
-	const src = require('../../assets/logo.png');
-	const imdbSrc = require('../../assets/imdb.png');
+	const src = require('../../assets/img/logo.png');
+	const imdbSrc = require('../../assets/img/imdb.png');
 	const translateX = useSharedValue(0);
 	const [tab, setTab] = useState(0);
 	const ListButtonWidth = 96;

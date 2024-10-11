@@ -7,9 +7,11 @@ export default AuthProvider = ({ children }) => {
 	const [myInfo, setMyInfo] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [logout, setLogout] = useState(false);
 	const data = {
 		isLoading,
 		setIsLoading,
+		logout: () => setLogout(!logout),
 		state: {
 			isLoggedIn,
 			setIsLoggedIn,
@@ -37,7 +39,10 @@ export default AuthProvider = ({ children }) => {
 					await SecureStore.deleteItemAsync('access_token');
 					await SecureStore.deleteItemAsync('refresh_token');
 					await SecureStore.deleteItemAsync('alreadyLoggedIn');
-					setIsLoading(false);
+					setIsLoading(() => {
+						setIsLoggedIn(false);
+						return false;
+					});
 				}
 			}
 			fetchUser();
@@ -47,6 +52,6 @@ export default AuthProvider = ({ children }) => {
 	}
 	useEffect(() => {
 		getUserInfo();
-	}, []);
+	}, [logout]);
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

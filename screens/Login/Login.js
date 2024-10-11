@@ -98,12 +98,12 @@ export default Login = () => {
 			/>
 			<ImageBackground
 				className="flex-1 justify-center items-center"
-				source={require('../../assets/theatre.jpg')}
+				source={require('../../assets/img/theatre.jpg')}
 				resizeMode="cover"
 				style={{ width: Dimensions.get('screen').width }}
 			>
 				<View className="absolute top-5 items-center justify-center">
-					<Image source={require('../../assets/logo.png')} className="w-10 h-10" />
+					<Image source={require('../../assets/img/logo.png')} className="w-10 h-10" />
 					<Text className="text-orange-500 text-center text-3xl capitalize">kmovie</Text>
 				</View>
 				<View className="mb-10">

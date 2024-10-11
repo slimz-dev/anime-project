@@ -8,15 +8,15 @@ import MovieContainer from './components/MovieContainer/MovieContainer';
 
 const view = [
 	{
-		icon: require('../../assets/popcorn.png'),
+		icon: require('../../assets/img/popcorn.png'),
 		name: 'Coming soon',
 	},
 	{
-		icon: require('../../assets/fire.png'),
+		icon: require('../../assets/img/fire.png'),
 		name: "Everyone's watching",
 	},
 	{
-		icon: require('../../assets/top10.png'),
+		icon: require('../../assets/img/top10.png'),
 		name: 'Top 10 Kmovie',
 	},
 ];
