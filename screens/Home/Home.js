@@ -44,8 +44,12 @@ export default Home = () => {
 					});
 				}
 			}
-			const fetchCategories = await getCategories();
-			setCategories(fetchCategories.data);
+			try {
+				const fetchCategories = await getCategories();
+				setCategories(fetchCategories.data);
+			} catch (err) {
+				console.log(err);
+			}
 			setIsLoading(false);
 		};
 		renderList();

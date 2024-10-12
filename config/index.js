@@ -10,6 +10,7 @@ export const screenStackName = {
 	Ranking: 'Top ranking',
 	HelpCenter: 'Help Center',
 	Search: 'Search',
+	Video: 'Video',
 };
 
 export const screenBottomNavName = {

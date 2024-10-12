@@ -21,6 +21,7 @@ import HelpCenterHeader from '../../screens/HelpCenter/components/CustomHeader/H
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MovieWrapper from '../../screens/Movie/components/MovieWrapper/MovieWrapper';
 import { Search } from '../../screens/Search/Search';
+import { Video } from '../../screens/Video/Video';
 const Stack = createNativeStackNavigator();
 
 const homeStackNavigator = [
@@ -33,6 +34,7 @@ const homeStackNavigator = [
 		customHeader: MovieHeader,
 	},
 	{ name: screenStackName.Search, component: Search, header: false },
+	{ name: screenStackName.Video, component: Video, header: false },
 ];
 
 const newsStackNavigator = [
@@ -49,6 +51,7 @@ const newsStackNavigator = [
 		customHeader: MovieHeader,
 	},
 	{ name: screenStackName.Search, component: Search, header: false },
+	{ name: screenStackName.Video, component: Video, header: false },
 ];
 
 const myAccountStackNavigator = [
@@ -86,6 +89,7 @@ const myAccountStackNavigator = [
 		header: true,
 		customHeader: MovieHeader,
 	},
+	{ name: screenStackName.Video, component: Video, header: false },
 ];
 
 export const authStackNavigator = [
