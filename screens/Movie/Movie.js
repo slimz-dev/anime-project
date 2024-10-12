@@ -37,7 +37,7 @@ export default Movie = () => {
 	const handlePlay = () => {
 		if (episodes.length > 0) {
 			const isExistedHistory = user.myInfo.movieWatched.find((mov) => {
-				return mov.watched.movie === movie._id;
+				return mov.watched.movie._id === movie._id;
 			});
 			if (isExistedHistory) {
 				let seconds = isExistedHistory.currentTime / 1000;

@@ -98,7 +98,7 @@ export default MyAccount = () => {
 								</View>
 							</Pressable>
 						</View>
-						<View className="mb-4">
+						<View className="mb-4 ml-1">
 							{user.myInfo.movieFollowed.length !== 0 && (
 								<ListMovie data={user.myInfo.movieFollowed} header="My list" />
 							)}
@@ -136,6 +136,7 @@ export default MyAccount = () => {
 							{user.myInfo.movieWatched.length !== 0 && (
 								<ListMovie
 									data={user.myInfo.movieWatched}
+									isHistory={true}
 									header="Movies you've watched"
 								/>
 							)}

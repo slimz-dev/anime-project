@@ -20,7 +20,7 @@ export const Video = ({ route }) => {
 					watchTime,
 					currentTime,
 					episodeID: episode._id,
-					movieID: episode.movie,
+					movieID: episode.movie._id,
 				});
 				if (result.statusCode === 200) {
 					watchTime = 0;
@@ -51,7 +51,7 @@ export const Video = ({ route }) => {
 					watchTime,
 					currentTime,
 					episodeID: episode._id,
-					movieID: episode.movie,
+					movieID: episode.movie._id,
 				});
 				if (result.statusCode === 200) {
 					watchTime = 0;
@@ -69,6 +69,7 @@ export const Video = ({ route }) => {
 	};
 	const handleProgress = (progress) => {
 		currentTime = progress.currentTime * 1000;
+		console.log(currentTime);
 	};
 	return (
 		<VideoPlayer

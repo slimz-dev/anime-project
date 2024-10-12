@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, FlatList, ImageBackground, Pressable } from 'react-native';
 import { screenStackName } from '../../../../config';
 import styles from '../../styles';
-export default ListMovie = ({ data, header }) => {
+export default ListMovie = ({ data, header, isHistory }) => {
 	const st = styles;
 	const navigation = useNavigation();
 	const transform = (title) => {
@@ -42,12 +42,12 @@ export default ListMovie = ({ data, header }) => {
 								]}
 								onPress={() =>
 									navigation.navigate(screenStackName.Movie, {
-										movieID: item._id,
+										movieID: isHistory ? item.watched.movie._id : item._id,
 									})
 								}
 							>
 								<ImageBackground
-									src={item.picture}
+									src={!isHistory ? item.picture : item.watched.movie.picture}
 									style={{
 										width: 80,
 										height: 100,
@@ -79,7 +79,9 @@ export default ListMovie = ({ data, header }) => {
 													textTransform: 'capitalize',
 												}}
 											>
-												{item.movieName}
+												{!isHistory
+													? item.movieName
+													: item.watched.movie.movieName}
 											</Text>
 										</View>
 										<View>
@@ -91,7 +93,9 @@ export default ListMovie = ({ data, header }) => {
 													textTransform: 'capitalize',
 												}}
 											>
-												{item.otherName}
+												{!isHistory
+													? item.otherName
+													: item.watched.movie.otherName}
 											</Text>
 										</View>
 									</View>
