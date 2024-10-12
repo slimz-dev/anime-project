@@ -8,26 +8,36 @@ import { updateWatchedMovie } from '../../services/User/updateWatchedMovie';
 export const Video = ({ route }) => {
 	const { episode, startPosition } = route.params;
 	const { user } = useContext(AuthContext);
+	const navigation = useNavigation();
 	const VideoRef = useRef(null);
-	const [isPaused, setIsPaused] = useState(false);
 	let watchTime = 0;
 	let currentTime = 0;
 	let getWatchTime;
 	useEffect(() => {
 		const backAction = async () => {
-			if (currentTime >= 1) {
+			if (currentTime >= 1 && watchTime >= 1) {
 				const result = await updateWatchedMovie(user.myInfo._id, {
 					watchTime,
 					currentTime,
 					episodeID: episode._id,
 					movieID: episode.movie,
 				});
+				if (result.statusCode === 200) {
+					watchTime = 0;
+					currentTime = 0;
+				}
 			}
+			navigation
+				.getParent()
+				?.setOptions({ tabBarStyle: { display: 'flex', backgroundColor: 'black' } });
+			navigation.goBack();
 		};
 		const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 		getWatchTime = setInterval(() => {
 			watchTime += 1;
 		}, 1000);
+
+		navigation.getParent()?.setOptions({ tabBarStyle: { display: 'none' } });
 		return () => {
 			backHandler.remove();
 			clearInterval(getWatchTime);
@@ -43,8 +53,12 @@ export const Video = ({ route }) => {
 					episodeID: episode._id,
 					movieID: episode.movie,
 				});
+				if (result.statusCode === 200) {
+					watchTime = 0;
+					currentTime = 0;
+				}
 			};
-			if (currentTime >= 1) {
+			if (currentTime >= 1 && watchTime >= 1) {
 				sendHistory();
 			}
 		} else {

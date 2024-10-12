@@ -31,6 +31,7 @@ export default Movie = () => {
 	};
 
 	const handleContinue = (episode, startPosition) => {
+		Dialog.hide();
 		navigation.navigate(screenStackName.Video, { episode, startPosition });
 	};
 	const handlePlay = () => {
