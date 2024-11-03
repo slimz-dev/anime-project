@@ -17,6 +17,7 @@ import { loginUser } from '../../services/User/loginUserService';
 import { screenStackName } from '../../config';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import ToastManager, { Toast } from 'toastify-react-native';
+import { getNotification } from '../../services/User/getNotification';
 export default Login = () => {
 	const { user, state, setIsLoading } = useContext(AuthContext);
 	const navigation = useNavigation();
@@ -50,6 +51,11 @@ export default Login = () => {
 				await SecureStore.setItemAsync('access_token', result.accessToken);
 				await SecureStore.setItemAsync('refresh_token', result.refreshToken);
 				await SecureStore.setItemAsync('alreadyLoggedIn', JSON.stringify(true));
+				const fetchNotification = async () => {
+					const result = await getNotification();
+					user.setNotification(result.data.list);
+				};
+				fetchNotification();
 				user.setMyInfo(() => {
 					setIsLoading(false);
 					state.setIsLoggedIn(true);

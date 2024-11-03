@@ -1,13 +1,10 @@
 import request from '../instance';
 import * as SecureStore from 'expo-secure-store';
-export const changeInfo = async (userID, data) => {
+export const getNotification = async () => {
 	const refreshToken = await SecureStore.getItem('refresh_token', { options: true });
-	data.append('refreshToken', refreshToken);
 	try {
-		const result = await request.patch(`users/${userID}`, data, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
+		const result = await request.get(`notifications/get-notifications`, {
+			refreshToken,
 		});
 		return {
 			statusCode: result.status,

@@ -20,7 +20,6 @@ const view = [
 		name: 'Top 10 Kmovie',
 	},
 ];
-const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export default MoviesUpdate = () => {
 	const [active, setActive] = useState(0);

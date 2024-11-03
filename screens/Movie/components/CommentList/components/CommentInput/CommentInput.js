@@ -3,9 +3,10 @@ import { Image, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Toast } from 'toastify-react-native';
 import { AuthContext } from '../../../../../../context/AuthProvider/AuthProvider';
 import { createComment } from '../../../../../../services/Comment/createComment';
+import socket from '../../../../../../utils/socket';
 import { MovieContext } from '../../../../context/MovieProvider';
 
-export default CommentInput = ({ style, replyTo }) => {
+export default CommentInput = ({ style, replyTo, userReplyTo }) => {
 	const { movieID } = useContext(MovieContext);
 	const { user } = useContext(AuthContext);
 	const [value, setValue] = useState('');
@@ -23,6 +24,14 @@ export default CommentInput = ({ style, replyTo }) => {
 			if (result.statusCode === 201) {
 				Toast.success('Comment submitted');
 				setValue('');
+				socket.emit('comment', movieID);
+				if (replyTo && userReplyTo) {
+					socket.emit('send-notification', {
+						content: `${user.myInfo.name} has reply to your comment`,
+						link: movieID,
+						to: userReplyTo,
+					});
+				}
 			}
 		} else {
 			Toast.error("Can't send empty comment");

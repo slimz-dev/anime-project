@@ -5,7 +5,7 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
-export default MovieButton = ({ text, icon }) => {
+export default MovieButton = ({ text, icon, onPress }) => {
 	const scale = useSharedValue(0);
 	const handleTouch = () => {
 		scale.value = withTiming(1.4, {
@@ -29,6 +29,7 @@ export default MovieButton = ({ text, icon }) => {
 					position: 'relative',
 				},
 			]}
+			onPress={onPress}
 			onPressIn={() => handleTouch(1)}
 			onPressOut={() => handleTouchOut(1)}
 		>

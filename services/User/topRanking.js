@@ -1,21 +1,17 @@
 import request from '../instance';
 import * as SecureStore from 'expo-secure-store';
-export const changeInfo = async (userID, data) => {
-	const refreshToken = await SecureStore.getItem('refresh_token', { options: true });
-	data.append('refreshToken', refreshToken);
+export const getTopRank = async () => {
 	try {
-		const result = await request.patch(`users/${userID}`, data, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
-		});
+		const result = await request.get(`users/top-rank`);
 		return {
 			statusCode: result.status,
 			data: result.data.data,
-			// accessToken: result.data.meta.accessToken,
 		};
 	} catch (error) {
-		return error.response.data;
+		return {
+			statusCode: error.response.status,
+			data: error.response.data.message,
+		};
 	}
 };
 request.interceptors.request.use(async (req) => {

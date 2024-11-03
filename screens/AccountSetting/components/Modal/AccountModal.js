@@ -7,6 +7,7 @@ import { AuthContext } from '../../../../context/AuthProvider/AuthProvider';
 import Feather from '@expo/vector-icons/Feather';
 import ToastManager, { Toast } from 'toastify-react-native';
 import { changeInfo } from '../../../../services/User/changeUserInfo';
+import socket from '../../../../utils/socket';
 export default AccountModal = ({ isShow, setIsShowModal }) => {
 	const { user } = useContext(AuthContext);
 	const [data, setData] = useState({
@@ -91,6 +92,17 @@ export default AccountModal = ({ isShow, setIsShowModal }) => {
 			result = await changeInfo(user.myInfo._id, form);
 			if (result.statusCode === 200) {
 				Toast.success('Updated successfully');
+				setData(() => {
+					socket.emit('fetch-user', user.myInfo._id);
+					return {
+						avatar: undefined,
+						name: undefined,
+						quote: undefined,
+						phone: undefined,
+						mail: undefined,
+						dob: undefined,
+					};
+				});
 			}
 		} else {
 			Toast.warn('You havent changed anything yet');

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getEpisodes } from '../../../../services/Episode/getEpisodes';
 import { getMovie } from '../../../../services/Movie/getMovie';
+import socket from '../../../../utils/socket';
 import Loading from '../../../LoadingScreen/Loading';
 import MovieProvider from '../../context/MovieProvider';
 import Movie from '../../Movie';
@@ -11,6 +12,7 @@ export default MovieWrapper = ({ route }) => {
 	const [episodes, setEpisodes] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
+		socket.emit('joinMovieRoom', movieID);
 		const getCurrentMovie = async () => {
 			const result = await getMovie(movieID);
 			if (result.statusCode === 200) {
@@ -20,9 +22,14 @@ export default MovieWrapper = ({ route }) => {
 					setEpisodes(fetchEpisodes.data);
 				}
 			}
-			setIsLoading(false);
+			setIsLoading(() => {
+				return false;
+			});
 		};
 		getCurrentMovie();
+		return () => {
+			socket.emit('leaveMovie', movieID);
+		};
 	}, []);
 	const data = {
 		movie,

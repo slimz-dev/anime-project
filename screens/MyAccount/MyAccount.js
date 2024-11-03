@@ -12,12 +12,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaskedView from '@react-native-masked-view/masked-view';
 import Entypo from '@expo/vector-icons/Entypo';
 import ListMovie from '../Home/components/ListMovie/ListMovie';
-import { data } from './mockData';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import { findBackground } from '../../constants/constans';
+import { useNavigation } from '@react-navigation/native';
+import { screenStackName } from '../../config';
 
 export default MyAccount = () => {
+	const navigation = useNavigation();
 	const { user } = useContext(AuthContext);
 	const item = {
 		name: 'kim dan',
@@ -80,6 +82,7 @@ export default MyAccount = () => {
 										backgroundColor: pressed ? '#333' : 'transparent',
 									},
 								]}
+								onPress={() => navigation.navigate(screenStackName.Notification)}
 							>
 								<View className="flex-row justify-between items-center py-1 px-2">
 									<View className="flex-row items-center">
@@ -100,7 +103,7 @@ export default MyAccount = () => {
 						</View>
 						<View className="mb-4 ml-1">
 							{user.myInfo.movieFollowed.length !== 0 && (
-								<ListMovie data={user.myInfo.movieFollowed} header="My list" />
+								<ListMovie data={user.myInfo.movieFollowed} header="Your list" />
 							)}
 
 							{user.myInfo.movieRated.oneStar.length !== 0 && (

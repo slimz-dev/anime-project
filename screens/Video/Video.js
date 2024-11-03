@@ -20,9 +20,10 @@ export const Video = ({ route }) => {
 					watchTime,
 					currentTime,
 					episodeID: episode._id,
-					movieID: episode.movie._id,
+					movieID: episode.movie,
 				});
 				if (result.statusCode === 200) {
+					socket.emit('fetch-user', user.myInfo._id);
 					watchTime = 0;
 					currentTime = 0;
 				}
@@ -51,9 +52,10 @@ export const Video = ({ route }) => {
 					watchTime,
 					currentTime,
 					episodeID: episode._id,
-					movieID: episode.movie._id,
+					movieID: episode.movie,
 				});
 				if (result.statusCode === 200) {
+					socket.emit('fetch-user', user.myInfo._id);
 					watchTime = 0;
 					currentTime = 0;
 				}

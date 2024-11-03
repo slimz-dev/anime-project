@@ -14,6 +14,7 @@ import CommentInput from './components/CommentInput/CommentInput';
 import { useContext, useEffect, useState } from 'react';
 import { getComments } from '../../../../services/Comment/getComments';
 import { MovieContext } from '../../context/MovieProvider';
+import socket from '../../../../utils/socket';
 
 export default CommentList = ({ isDisplay }) => {
 	const { movieID } = useContext(MovieContext);
@@ -24,6 +25,9 @@ export default CommentList = ({ isDisplay }) => {
 			setList(result.data);
 		};
 		fetchComments();
+		socket.on('update-comment', (data) => {
+			setList(data);
+		});
 	}, []);
 	function checkLength(container, length) {
 		if (container.length !== 0) {

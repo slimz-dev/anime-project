@@ -15,8 +15,12 @@ import { Toast } from 'toastify-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { screenStackName } from '../../config';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import { followMovie } from '../../services/User/followMovie';
+import RateModal from './components/RateModal/RateModal';
+import socket from '../../utils/socket';
 export default Movie = () => {
 	const { movie, episodes } = useContext(MovieContext);
+	const [isShowModal, setIsShowModal] = useState(false);
 	const { user } = useContext(AuthContext);
 	const navigation = useNavigation();
 	const src = require('../../assets/img/logo.png');
@@ -67,7 +71,25 @@ export default Movie = () => {
 			Toast.error('No episode available');
 		}
 	};
-
+	const handleFollow = async () => {
+		try {
+			const result = await followMovie(movie._id);
+			if (result.statusCode === 200) {
+				Toast.success(result.data);
+				socket.emit('fetch-user', user.myInfo._id);
+			}
+		} catch (err) {
+			Toast.error(err.message);
+		}
+	};
+	const checkFollow = () => {
+		const found = user.myInfo.movieFollowed.find((item) => item._id === movie._id);
+		if (found) {
+			return <AntDesign name="minus" size={20} color="white" />;
+		} else {
+			return <AntDesign name="plus" size={20} color="white" />;
+		}
+	};
 	return (
 		<>
 			<FlatList
@@ -150,12 +172,15 @@ export default Movie = () => {
 							</Text>
 							<View className="my-3 flex-row justify-start px-8 ">
 								<MovieButton
+									onPress={handleFollow}
 									text="My list"
-									icon={<AntDesign name="plus" size={20} color="white" />}
+									icon={checkFollow()}
 								/>
+
 								<MovieButton
 									text="Rate"
 									icon={<SimpleLineIcons name="like" size={20} color="white" />}
+									onPress={() => setIsShowModal(true)}
 								/>
 							</View>
 						</View>
@@ -199,6 +224,7 @@ export default Movie = () => {
 					</View>
 				}
 			/>
+			<RateModal isShow={isShowModal} setIsShow={setIsShowModal} />
 		</>
 	);
 };

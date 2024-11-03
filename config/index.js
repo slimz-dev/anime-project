@@ -11,6 +11,7 @@ export const screenStackName = {
 	HelpCenter: 'Help Center',
 	Search: 'Search',
 	Video: 'Video',
+	Notification: 'Notification',
 };
 
 export const screenBottomNavName = {

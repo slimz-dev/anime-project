@@ -184,7 +184,13 @@ export default Comment = ({ data: item, style, nested = 0 }) => {
 					</View>
 				</View>
 			</View>
-			{isCreateReply && <CommentInput style={{ ...style }} replyTo={item._id} />}
+			{isCreateReply && (
+				<CommentInput
+					style={{ ...style }}
+					replyTo={item._id}
+					userReplyTo={item.createdBy._id}
+				/>
+			)}
 			{showReply && (
 				<FlatList
 					data={item.commentsReply}

@@ -30,7 +30,7 @@
 				"projectId": "804fcb67-3ed7-4c91-87b8-b3debc74b819"
 			}
 		},
-		"scheme": "googleApp",
+		"scheme": "Kmovie",
 		"plugins": [
 			"expo-secure-store",
 			"react-native-video",

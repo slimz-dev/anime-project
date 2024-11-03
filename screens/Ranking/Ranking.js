@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Image, Text, View, FlatList, StyleSheet, ImageBackground } from 'react-native';
 import LevelBackground from '../../components/LevelBackground/LevelBackground';
+import { getTopRank } from '../../services/User/topRanking';
 
 const title = ['Top', '', 'Sir', 'Level', 'Strength'];
 
@@ -105,6 +107,14 @@ const users = [
 	},
 ];
 export default Ranking = () => {
+	const [users, setUsers] = useState([]);
+	useEffect(() => {
+		const fetchRank = async () => {
+			const result = await getTopRank();
+			setUsers(result.data);
+		};
+		fetchRank();
+	}, []);
 	const rankerIndex = (index) => {
 		switch (index) {
 			case 1:
@@ -169,6 +179,7 @@ export default Ranking = () => {
 													{ borderBottomWidth: 1, borderColor: '#333' },
 												]}
 											>
+												{console.log(item)}
 												<View
 													className="justify-center items-center "
 													style={{ width: `${100 / title.length}%` }}
@@ -185,7 +196,7 @@ export default Ranking = () => {
 													style={{ width: `${100 / title.length}%` }}
 												>
 													<Image
-														src={item.src}
+														src={item.avatar}
 														className="w-9  h-9 border rounded-full"
 													/>
 												</View>
@@ -203,7 +214,7 @@ export default Ranking = () => {
 												>
 													<LevelBackground
 														title={item.level.name}
-														level={3}
+														level={item.level.index}
 													/>
 												</View>
 												<View
