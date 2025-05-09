@@ -6,6 +6,9 @@ import socket from '../../utils/socket';
 import { getNotification } from '../../services/User/getNotification';
 export const AuthContext = createContext();
 export default AuthProvider = ({ children }) => {
+	const [myAccount, setMyAccount] = useState(null);
+	const [isBiometric, setIsBiometric] = useState(false);
+	const [isVerified, setIsVerified] = useState(false);
 	const [myInfo, setMyInfo] = useState({});
 	const [notification, setNotification] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +28,16 @@ export default AuthProvider = ({ children }) => {
 			notification,
 			setNotification,
 		},
+		biometric: {
+			isEnableBiometric: isBiometric,
+			setIsEnableBiometric: async (value) => {
+				await SecureStore.setItemAsync('biometric', value.toString());
+				await SecureStore.setItemAsync('account', myInfo.username);
+				setIsBiometric(value);
+			},
+			setIsVerified,
+			myAccount,
+		},
 	};
 	async function getUserInfo() {
 		const alreadyLoggedIn = JSON.parse(
@@ -33,7 +46,7 @@ export default AuthProvider = ({ children }) => {
 		if (alreadyLoggedIn) {
 			async function fetchUser() {
 				const result = await fetchInfo();
-				if (result.data && result.accessToken) {
+				if (result?.data && result.accessToken) {
 					await SecureStore.setItemAsync('access_token', result.accessToken);
 					const fetchNotification = async () => {
 						const result = await getNotification();
@@ -54,6 +67,8 @@ export default AuthProvider = ({ children }) => {
 					await SecureStore.deleteItemAsync('access_token');
 					await SecureStore.deleteItemAsync('refresh_token');
 					await SecureStore.deleteItemAsync('alreadyLoggedIn');
+					await SecureStore.deleteItemAsync('account');
+					await SecureStore.deleteItemAsync('biometric');
 					setIsLoading(() => {
 						setIsLoggedIn(false);
 						return false;
@@ -65,6 +80,32 @@ export default AuthProvider = ({ children }) => {
 			setIsLoading(false);
 		}
 	}
+	const handleLogout = async () => {
+		await SecureStore.deleteItemAsync('access_token');
+		await SecureStore.deleteItemAsync('refresh_token');
+		await SecureStore.deleteItemAsync('alreadyLoggedIn');
+		await SecureStore.deleteItemAsync('account');
+		await SecureStore.deleteItemAsync('biometric');
+		setIsBiometric(false);
+		setIsLoggedIn(false);
+	};
+
+	const getBiometricInfo = async () => {
+		const isEnableBiometric = JSON.parse(
+			await SecureStore.getItemAsync('biometric', { options: true })
+		);
+		if (isEnableBiometric) {
+			const account = await SecureStore.getItemAsync('account');
+			setIsLoading(() => {
+				setMyAccount(account);
+				setIsBiometric(true);
+				setIsLoggedIn(false);
+				return false;
+			});
+		} else {
+			getUserInfo();
+		}
+	};
 
 	function fetchAgain() {
 		async function fetchUser() {
@@ -73,8 +114,19 @@ export default AuthProvider = ({ children }) => {
 		}
 		fetchUser();
 	}
+
+	// const handleBiometric = async () => {
+	// 	await getBiometricInfo();
+	// };
 	useEffect(() => {
-		getUserInfo();
+		if (isVerified) {
+			getUserInfo();
+		} else {
+			getBiometricInfo();
+		}
+		if (logout) {
+			handleLogout();
+		}
 		socket.on('user-info-changed', () => {
 			fetchAgain();
 		});
@@ -85,6 +137,6 @@ export default AuthProvider = ({ children }) => {
 		socket.on('return-page', async () => {
 			fetchAgain();
 		});
-	}, [logout]);
+	}, [logout, isVerified]);
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

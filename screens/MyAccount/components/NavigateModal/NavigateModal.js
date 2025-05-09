@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Switch } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -13,6 +13,9 @@ import { removeDevice } from '../../../../services/User/removeDevice';
 import * as Linking from 'expo-linking';
 import { PaymentModal } from '../PaymentModal/PaymentModal';
 import { VipModal } from '../VipModal/VipModal';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import { IOSReferenceFrame } from 'react-native-reanimated';
 const pjson = require('../../../../package.json');
 const myAccountStackNavigator = [
 	{
@@ -42,11 +45,36 @@ export const NavigateModal = ({ isShowModal, setIsShowModal }) => {
 	const navigation = useNavigation();
 	const [isShowPaymentModal, setIsShowPaymentModal] = useState(false);
 	const [isShowVipModal, setIsShowVipModal] = useState(false);
-	const { logout, user } = useContext(AuthContext);
+	const { logout, user, biometric } = useContext(AuthContext);
 	const handleSignOut = async () => {
 		const result = await removeDevice(user.myInfo._id);
 		if (result) {
 			logout();
+		}
+	};
+
+	const handleBiometricChange = async (v) => {
+		const isBiometricAvailable = await LocalAuthentication.hasHardwareAsync();
+
+		if (isBiometricAvailable) {
+			const isRecorded = await LocalAuthentication.isEnrolledAsync();
+			if (isRecorded) {
+				biometric.setIsEnableBiometric(v);
+			} else {
+				Dialog.show({
+					type: ALERT_TYPE.WARNING,
+					title: 'Warning',
+					textBody: `You must first set up a fingerprint on your device !`,
+					button: 'Ok',
+				});
+			}
+		} else {
+			Dialog.show({
+				type: ALERT_TYPE.WARNING,
+				title: 'Warning',
+				textBody: `Your device doesnt support biometric authentication!`,
+				button: 'Ok',
+			});
 		}
 	};
 	return (
@@ -127,7 +155,19 @@ export const NavigateModal = ({ isShowModal, setIsShowModal }) => {
 									</Pressable>
 								);
 							})}
-
+							<View>
+								<View className="flex-row p-3 items-center">
+									<MaterialIcons name="fingerprint" size={24} color="white" />
+									<Switch
+										trackColor={{ false: 'orange', true: 'white' }}
+										thumbColor={
+											biometric.isEnableBiometric ? '#F68F19' : '#FFFFCC'
+										}
+										onValueChange={(v) => handleBiometricChange(v)}
+										value={biometric.isEnableBiometric}
+									/>
+								</View>
+							</View>
 							<Pressable
 								style={({ pressed }) => [
 									{

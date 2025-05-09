@@ -24,6 +24,7 @@ import { Search } from '../../screens/Search/Search';
 import { Video } from '../../screens/Video/Video';
 import Notification from '../../screens/Notification/Notification';
 import NotificationHeader from '../../screens/Notification/CustomHeader/NotificationHeader';
+import ErrorScreen from '../../services/Error/ErrorScreen';
 const Stack = createNativeStackNavigator();
 
 const homeStackNavigator = [
@@ -42,6 +43,11 @@ const homeStackNavigator = [
 		component: Notification,
 		header: true,
 		customHeader: NotificationHeader,
+	},
+	{
+		name: 'hi',
+		component: ErrorScreen,
+		header: false,
 	},
 ];
 

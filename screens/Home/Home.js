@@ -21,6 +21,7 @@ import Loading from '../LoadingScreen/Loading';
 import { getCategories } from '../../services/Categories/getCategories';
 import { useNavigation } from '@react-navigation/native';
 import { screenStackName } from '../../config';
+import { errorHandler } from '../../services/instance';
 
 export default Home = () => {
 	const navigation = useNavigation();
@@ -30,6 +31,7 @@ export default Home = () => {
 	const [isShowModal, setIsShowModal] = useState(false);
 	const [data, setData] = useState([]);
 	useEffect(() => {
+		errorHandler(navigation);
 		const renderList = async () => {
 			for (let index = 2; index <= 8; index++) {
 				const result = await queryMovieWithUpdateTime({

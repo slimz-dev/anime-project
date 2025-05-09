@@ -18,14 +18,23 @@ import { screenStackName } from '../../config';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import ToastManager, { Toast } from 'toastify-react-native';
 import { getNotification } from '../../services/User/getNotification';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import * as LocalAuthentication from 'expo-local-authentication';
 export default Login = () => {
-	const { user, state, setIsLoading } = useContext(AuthContext);
+	const { user, state, setIsLoading, biometric, logout } = useContext(AuthContext);
 	const navigation = useNavigation();
 	const [userAccount, setUserAccount] = useState({
 		username: '',
 		password: '',
 	});
 	const [isSubmit, setIsSubmit] = useState(false);
+
+	const handleBiometricAuthentication = async () => {
+		const result = await LocalAuthentication.authenticateAsync();
+		if (result.success) {
+			biometric.setIsVerified(true);
+		}
+	};
 
 	const getDeviceID = async () => {
 		let deviceID = await SecureStore.getItemAsync('deviceID', { options: true });
@@ -48,6 +57,7 @@ export default Login = () => {
 			const result = await loginUser(data);
 			if (result.data) {
 				setIsLoading(true);
+				await SecureStore.setItemAsync('account', userAccount.username);
 				await SecureStore.setItemAsync('access_token', result.accessToken);
 				await SecureStore.setItemAsync('refresh_token', result.refreshToken);
 				await SecureStore.setItemAsync('alreadyLoggedIn', JSON.stringify(true));
@@ -62,6 +72,7 @@ export default Login = () => {
 					return result.data;
 				});
 			} else {
+				console.log(result);
 				Toast.error(result.message);
 			}
 		};
@@ -72,6 +83,11 @@ export default Login = () => {
 	useEffect(() => {
 		fillForm();
 	}, [isSubmit]);
+
+	const handleRemoveAccount = () => {
+		logout();
+	};
+
 	const handleSubmit = () => {
 		if (userAccount.username && userAccount.password) {
 			setIsSubmit(Math.random());
@@ -116,17 +132,25 @@ export default Login = () => {
 					<Text className="text-orange-500 font-bold text-3xl ">Login</Text>
 				</View>
 				<View className="mb-3 ">
-					<Text className="text-white font-bold mb-1 text-xs">Username</Text>
-					<TextInput
-						value={userAccount.username}
-						onChangeText={(text) =>
-							setUserAccount((prev) => {
-								return { ...prev, username: text };
-							})
-						}
-						caretHidden
-						className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
-					/>
+					{biometric.isEnableBiometric ? (
+						<Text className=" bg-black w-fit text-orange-500 text-2xl rounded-lg px-6 py-1">
+							{biometric.myAccount}
+						</Text>
+					) : (
+						<>
+							<Text className="text-white font-bold mb-1 text-xs">Username</Text>
+							<TextInput
+								value={userAccount.username}
+								onChangeText={(text) =>
+									setUserAccount((prev) => {
+										return { ...prev, username: text };
+									})
+								}
+								caretHidden
+								className="bg-slate-800 border border-orange-500 text-white text-xs w-56 rounded-lg px-2 py-1"
+							/>
+						</>
+					)}
 				</View>
 				<View>
 					<View className="flex-row justify-between">
@@ -149,19 +173,37 @@ export default Login = () => {
 					/>
 				</View>
 				<View className="flex-row justify-start w-56 my-1 ">
-					<Text className="text-xs text-black font-bold mr-1">or, Login with</Text>
-					<Pressable
-						className="active:bg-white rounded-full active:opacity-80"
-						onPress={() => navigation.goBack()}
-					>
-						<Text className=" text-xs text-zinc-800 font-bold underline">Google</Text>
-					</Pressable>
+					<Text className="text-xs text-orange-500 font-bold mr-1">or, Login with</Text>
+					{biometric.isEnableBiometric ? (
+						<Pressable
+							className="active:bg-white rounded-full active:opacity-80"
+							onPress={() => handleRemoveAccount()}
+						>
+							<Text className=" text-xs text-orange-500 font-bold underline">
+								another account
+							</Text>
+						</Pressable>
+					) : (
+						<Pressable
+							className="active:bg-white rounded-full active:opacity-80"
+							onPress={() => navigation.goBack()}
+						>
+							<Text className=" text-xs text-orange-500 font-bold underline">
+								Google
+							</Text>
+						</Pressable>
+					)}
 				</View>
-				<TouchableOpacity activeOpacity={0.8} onPress={handleSubmit}>
+				<TouchableOpacity activeOpacity={0.8} onPress={handleSubmit} className="mb-10">
 					<View className="w-56  bg-orange-500 rounded-md ">
 						<Text className="text-black font-bold text-center py-2">Log in</Text>
 					</View>
 				</TouchableOpacity>
+				{biometric.isEnableBiometric && (
+					<TouchableOpacity activeOpacity={0.6} onPress={handleBiometricAuthentication}>
+						<Ionicons name="finger-print" size={40} color="white" />
+					</TouchableOpacity>
+				)}
 				<View className="flex-row absolute bottom-5">
 					<Text className="text-orange-400 text-xs">Don't have an account?</Text>
 					<Pressable

@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import VideoPlayer, { VideoRef } from 'react-native-video';
 import { BackHandler } from 'react-native';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import { WebView } from 'react-native-webview';
 import { updateWatchedMovie } from '../../services/User/updateWatchedMovie';
 export const Video = ({ route }) => {
 	const { episode, startPosition } = route.params;
@@ -74,16 +75,22 @@ export const Video = ({ route }) => {
 		console.log(currentTime);
 	};
 	return (
-		<VideoPlayer
-			ref={VideoRef}
-			seek={100}
-			className="flex w-full h-full bg-black"
-			source={{ uri: episode.link, startPosition }}
-			resizeMode="contain" // Video will scale to maintain its aspect ratio
-			repeat={true} // Loop the video
-			controls={true}
-			onProgress={handleProgress}
-			onPlaybackRateChange={handlePauseVid}
+		// <VideoPlayer
+		// 	ref={VideoRef}
+		// 	seek={100}
+		// 	className="flex w-full h-full bg-black"
+		// 	source={{ uri: episode.link, startPosition }}
+		// 	resizeMode="contain" // Video will scale to maintain its aspect ratio
+		// 	repeat={true} // Loop the video
+		// 	controls={true}
+		// 	onProgress={handleProgress}
+		// 	onPlaybackRateChange={handlePauseVid}
+		// />
+		<WebView
+			source={{
+				uri: `https://d066-118-71-204-229.ngrok-free.app/video-player.html?src=${episode.link}`,
+			}}
+			style={{ flex: 1 }}
 		/>
 	);
 };
