@@ -88,7 +88,7 @@ export const Video = ({ route }) => {
 		// />
 		<WebView
 			source={{
-				uri: `https://d066-118-71-204-229.ngrok-free.app/video-player.html?src=${episode.link}`,
+				uri: `${process.env.APP_BACKEND_URL}/video-player.html?src=${episode.link}`,
 			}}
 			style={{ flex: 1 }}
 		/>
